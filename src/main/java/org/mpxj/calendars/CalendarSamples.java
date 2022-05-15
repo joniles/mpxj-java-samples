@@ -12,12 +12,12 @@ import java.util.stream.Collectors;
 
 public class CalendarSamples {
 
-   public static void main(String[] argv) throws Exception {
+   public static void main(String[] argv) {
       CalendarSamples samples = new CalendarSamples();
       samples.process();
    }
 
-   private void process() throws Exception {
+   private void process() {
       //
       // Create a default calendar
       //
@@ -62,7 +62,7 @@ public class CalendarSamples {
       detailedCalendarDump(calendar);
 
       //
-      // Create our own working hoyrs for Saturday
+      // Create our own working hours for Saturday
       //
       Calendar javaCalendar = Calendar.getInstance();
       javaCalendar.set(Calendar.HOUR_OF_DAY, 9);
