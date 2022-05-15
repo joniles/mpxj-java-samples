@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5b0f65b7-60d1-44bb-aec1-95fa92c57b46" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/mpxj/calendars/CalendarSamples.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/mpxj/calendars/CalendarSamples.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/mpxj/calendars/CalendarSamples.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/mpxj/calendars/CalendarSamples.class" afterDir="false" />
-    </list>
+    <list default="true" id="5b0f65b7-60d1-44bb-aec1-95fa92c57b46" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
