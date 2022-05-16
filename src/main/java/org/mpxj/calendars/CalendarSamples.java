@@ -5,7 +5,9 @@ import net.sf.mpxj.common.DateHelper;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -145,9 +147,6 @@ public class CalendarSamples {
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
       Date exceptionDate = df.parse("10/05/2022");
 
-//      java.sql.Date.valueOf(LocalDate.parse("2022-05-10"));
-//      DateTimeFormatter.ISO_DATE.format(exceptionDate.toInstant());
-
       boolean workingDate = calendar.isWorkingDate(exceptionDate);
       System.out.println(df.format(exceptionDate) + " is a " + (workingDate ? "working" : "non-working") + " day");
 
@@ -192,9 +191,10 @@ public class CalendarSamples {
       // Represent a "crunch" period in October.
       // Three weeks of 16 hour weekdays, with 8 hour days at weekends
       //
-      System.out.println("Represent a \"crunch\" period in Octobe");
+      System.out.println("Represent a \"crunch\" period in October");
       Date weekStart = df.parse("01/10/2022");
       Date weekEnd = df.parse("21/10/2022");
+      calendar = file.addDefaultBaseCalendar();
       ProjectCalendarWeek week = calendar.addWorkWeek();
       week.setName("Crunch Time!");
       week.setDateRange(new DateRange(weekStart, weekEnd));
@@ -213,6 +213,9 @@ public class CalendarSamples {
          .stream().forEach(d -> week.addCalendarHours(d).add(weekdayHours));
 
       detailedCalendarDump(week);
+
+      dateDump(calendar, "24/09/2022", "01/10/2022");
+      dateDump(calendar, "01/10/2022", "08/10/2022");
    }
 
    private void simpleCalendarDump(ProjectCalendarDays calendar)
