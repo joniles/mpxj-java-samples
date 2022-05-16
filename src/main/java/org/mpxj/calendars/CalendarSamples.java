@@ -125,6 +125,36 @@ public class CalendarSamples {
 
       duration = calendar.getWork(Day.SATURDAY, TimeUnit.HOURS);
       System.out.println(duration);
+      System.out.println();
+
+      //
+      // Add an exception for a single day
+      //
+      DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+      Date exceptionDate = df.parse("10/05/2022");
+
+      boolean workingDate = calendar.isWorkingDate(exceptionDate);
+      System.out.println(df.format(exceptionDate) + " is a " + (workingDate ? "working" : "non-working") + " day");
+
+      ProjectCalendarException exception = calendar.addCalendarException(exceptionDate, exceptionDate);
+      exception.setName("A day off");
+
+      workingDate = calendar.isWorkingDate(exceptionDate);
+      System.out.println(df.format(exceptionDate) + " is a " + (workingDate ? "working" : "non-working") + " day");
+
+      //
+      // Make this a half-day
+      //
+      startTime = DateHelper.getTime(8, 0);
+      finishTime = DateHelper.getTime(12, 0);
+      exception.add(new DateRange(startTime, finishTime));
+      workingDate = calendar.isWorkingDate(exceptionDate);
+      System.out.println(df.format(exceptionDate) + " is a " + (workingDate ? "working" : "non-working") + " day");
+
+      System.out.println("Working time on Tuesdays is normally "
+         + calendar.getWork(Day.TUESDAY, TimeUnit.HOURS) + " but on "
+         + df.format(exceptionDate) + " it is "
+         + calendar.getWork(exceptionDate, TimeUnit.HOURS));
    }
 
    private void simpleCalendarDump(ProjectCalendar calendar)
