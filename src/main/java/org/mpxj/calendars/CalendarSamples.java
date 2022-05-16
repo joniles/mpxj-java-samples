@@ -5,6 +5,9 @@ import net.sf.mpxj.common.DateHelper;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -21,6 +24,7 @@ public class CalendarSamples {
       //
       // Create a default calendar
       //
+      System.out.println("Create a default calendar");
       ProjectFile file = new ProjectFile();
       ProjectCalendar calendar = file.addDefaultBaseCalendar();
       System.out.println("The calendar name is " + calendar.getName());
@@ -30,32 +34,36 @@ public class CalendarSamples {
       //
       // Make Saturday a working day and Monday a non-working day
       //
+      System.out.println("Make Saturday a working day and Monday a non-working day");
       calendar.setWorkingDay(Day.SATURDAY, true);
       calendar.setWorkingDay(Day.MONDAY, false);
-      simpleCalendarDump(calendar);
       simpleCalendarDump(calendar);
 
       //
       // Show the "raw form" of the working hours for Tuesday
       //
-      List<DateRange> hours = calendar.getHours(Day.TUESDAY);
+      System.out.println("Show the \"raw form\" of the working hours for Tuesday");
+      List<DateRange> hours = calendar.getCalendarHours(Day.TUESDAY);
       hours.forEach(System.out::println);
       System.out.println();
 
       //
       // Show a formatted version of Tuesday's working hours
       //
+      System.out.println("Show a formatted version of Tuesday's working hours");
       System.out.println(formatDateRanges(hours));
       System.out.println();
 
       //
       // Show a detailed dump of the whole calendar
       //
+      System.out.println("Show a detailed dump of the whole calendar");
       detailedCalendarDump(calendar);
 
       //
       // Add some working hours to Saturday using constants supplied by MPXJ
       //
+      System.out.println("Add some working hours to Saturday using constants supplied by MPXJ");
       hours = calendar.getCalendarHours(Day.SATURDAY);
       hours.add(ProjectCalendarDays.DEFAULT_WORKING_MORNING);
       hours.add(ProjectCalendarDays.DEFAULT_WORKING_AFTERNOON);
@@ -64,6 +72,7 @@ public class CalendarSamples {
       //
       // Create our own working hours for Saturday
       //
+      System.out.println("Create our own working hours for Saturday");
       Calendar javaCalendar = Calendar.getInstance();
       javaCalendar.set(Calendar.HOUR_OF_DAY, 9);
       javaCalendar.set(Calendar.MINUTE, 0);
@@ -82,6 +91,7 @@ public class CalendarSamples {
       //
       // Set up the same working hours, but use a helper method
       //
+      System.out.println("Set up the same working hours, but use a helper method");
       startTime = DateHelper.getTime(9, 0);
       finishTime = DateHelper.getTime(14, 30);
       hours.clear();
@@ -89,8 +99,9 @@ public class CalendarSamples {
       detailedCalendarDump(calendar);
 
       //
-      // See how many working hours on Saturday
+      // Show how many working hours there are on Saturday
       //
+      System.out.println("Show how many working hours there are on Saturday");
       Duration duration = calendar.getWork(Day.SATURDAY, TimeUnit.HOURS);
       System.out.println(duration);
       System.out.println();
@@ -98,19 +109,21 @@ public class CalendarSamples {
       //
       // Let's try a naive approach to making Saturday 24 hours
       //
+      System.out.println("Let's try a naive approach to making Saturday 24 hours");
       startTime = DateHelper.getTime(0, 0);
       finishTime = DateHelper.getTime(0, 0);
       hours.clear();
       hours.add(new DateRange(startTime, finishTime));
-      System.out.println(formatDateRanges(calendar.getHours(Day.SATURDAY)));
+      System.out.println(formatDateRanges(calendar.getCalendarHours(Day.SATURDAY)));
 
       duration = calendar.getWork(Day.SATURDAY, TimeUnit.HOURS);
       System.out.println(duration);
       System.out.println();
 
       //
-      // Create an end date which is +1 day
+      // Make 24 hour days work by using an end time which is +1 day
       //
+      System.out.println("Make 24 hour days work by using an end time which is +1 day");
       javaCalendar.set(Calendar.HOUR_OF_DAY, 0);
       javaCalendar.set(Calendar.MINUTE, 0);
       startTime = javaCalendar.getTime();
@@ -120,9 +133,7 @@ public class CalendarSamples {
 
       hours.clear();
       hours.add(new DateRange(startTime, finishTime));
-      System.out.println(formatDateRanges(calendar.getHours(Day.SATURDAY)));
-      System.out.println();
-
+      System.out.println(formatDateRanges(calendar.getCalendarHours(Day.SATURDAY)));
       duration = calendar.getWork(Day.SATURDAY, TimeUnit.HOURS);
       System.out.println(duration);
       System.out.println();
@@ -130,8 +141,12 @@ public class CalendarSamples {
       //
       // Add an exception for a single day
       //
+      System.out.println("Add an exception for a single day");
       DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
       Date exceptionDate = df.parse("10/05/2022");
+
+//      java.sql.Date.valueOf(LocalDate.parse("2022-05-10"));
+//      DateTimeFormatter.ISO_DATE.format(exceptionDate.toInstant());
 
       boolean workingDate = calendar.isWorkingDate(exceptionDate);
       System.out.println(df.format(exceptionDate) + " is a " + (workingDate ? "working" : "non-working") + " day");
@@ -145,6 +160,7 @@ public class CalendarSamples {
       //
       // Make this a half-day
       //
+      System.out.println("Make this a half-day");
       startTime = DateHelper.getTime(8, 0);
       finishTime = DateHelper.getTime(12, 0);
       exception.add(new DateRange(startTime, finishTime));
@@ -160,6 +176,7 @@ public class CalendarSamples {
       //
       // Add an exception affecting a number of days
       //
+      System.out.println("Add an exception affecting a number of days");
       dateDump(calendar, "23/05/2022", "28/05/2022");
 
       Date exceptionStartDate = df.parse("24/05/2022");
@@ -169,26 +186,51 @@ public class CalendarSamples {
       finishTime = DateHelper.getTime(13, 0);
       exception.add(new DateRange(startTime, finishTime));
 
-
       dateDump(calendar, "23/05/2022", "28/05/2022");
+
+      //
+      // Represent a "crunch" period in October.
+      // Three weeks of 16 hour weekdays, with 8 hour days at weekends
+      //
+      System.out.println("Represent a \"crunch\" period in Octobe");
+      Date weekStart = df.parse("01/10/2022");
+      Date weekEnd = df.parse("21/10/2022");
+      ProjectCalendarWeek week = calendar.addWorkWeek();
+      week.setName("Crunch Time!");
+      week.setDateRange(new DateRange(weekStart, weekEnd));
+      Arrays.stream(Day.values()).forEach(d -> week.setWorkingDay(d, true));
+
+      startTime = DateHelper.getTime(9, 0);
+      finishTime = DateHelper.getTime(17, 0);
+      DateRange weekendHours = new DateRange(startTime, finishTime);
+      Arrays.asList(Day.SATURDAY, Day.SUNDAY)
+         .stream().forEach(d -> week.addCalendarHours(d).add(weekendHours));
+
+      startTime = DateHelper.getTime(5, 0);
+      finishTime = DateHelper.getTime(21, 0);
+      DateRange weekdayHours = new DateRange(startTime, finishTime);
+      Arrays.asList(Day.MONDAY, Day.TUESDAY, Day.WEDNESDAY, Day.THURSDAY, Day.FRIDAY)
+         .stream().forEach(d -> week.addCalendarHours(d).add(weekdayHours));
+
+      detailedCalendarDump(week);
    }
 
-   private void simpleCalendarDump(ProjectCalendar calendar)
+   private void simpleCalendarDump(ProjectCalendarDays calendar)
    {
       for (Day day : Day.values()) {
-         String working = calendar.isWorkingDay(day) ? "Working" : "Non-working";
-         System.out.println(day + " is a " + working + " day");
+         String dayType = calendar.getCalendarDayType(day).toString();
+         System.out.println(day + " is a " + dayType + " day");
       }
       System.out.println();
    }
 
-   private void detailedCalendarDump(ProjectCalendar calendar)
+   private void detailedCalendarDump(ProjectCalendarDays calendar)
    {
       for (Day day : Day.values()) {
-         String working = calendar.isWorkingDay(day) ? "Working" : "Non-working";
+         String dayType = calendar.getCalendarDayType(day).toString();
          System.out.println(day
-            + " is a " + working + " day ("
-            + formatDateRanges(calendar.getHours(day)) + ")");
+            + " is a " + dayType + " day ("
+            + formatDateRanges(calendar.getCalendarHours(day)) + ")");
       }
       System.out.println();
    }
