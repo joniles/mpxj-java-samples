@@ -12,12 +12,12 @@ import java.util.stream.Collectors;
 
 public class CalendarSamples {
 
-   public static void main(String[] argv) {
+   public static void main(String[] argv) throws Exception {
       CalendarSamples samples = new CalendarSamples();
       samples.process();
    }
 
-   private void process() {
+   private void process() throws Exception {
       //
       // Create a default calendar
       //
@@ -155,6 +155,22 @@ public class CalendarSamples {
          + calendar.getWork(Day.TUESDAY, TimeUnit.HOURS) + " but on "
          + df.format(exceptionDate) + " it is "
          + calendar.getWork(exceptionDate, TimeUnit.HOURS));
+      System.out.println();
+
+      //
+      // Add an exception affecting a number of days
+      //
+      dateDump(calendar, "23/05/2022", "28/05/2022");
+
+      Date exceptionStartDate = df.parse("24/05/2022");
+      Date exceptionEndDate = df.parse("26/05/2022");
+      exception = calendar.addCalendarException(exceptionStartDate, exceptionEndDate);
+      startTime = DateHelper.getTime(9, 0);
+      finishTime = DateHelper.getTime(13, 0);
+      exception.add(new DateRange(startTime, finishTime));
+
+
+      dateDump(calendar, "23/05/2022", "28/05/2022");
    }
 
    private void simpleCalendarDump(ProjectCalendar calendar)
@@ -182,5 +198,21 @@ public class CalendarSamples {
       return hours.stream()
          .map(h -> df.format(h.getStart()) + "-" + df.format(h.getEnd()))
          .collect(Collectors.joining(", "));
+   }
+
+   private void dateDump(ProjectCalendar calendar, String startDate, String endDate) throws Exception
+   {
+      DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+
+      Calendar start = Calendar.getInstance();
+      start.setTime(df.parse(startDate));
+      Calendar end = Calendar.getInstance();
+      end.setTime(df.parse(endDate));
+
+      for (Date date = start.getTime(); start.before(end); start.add(Calendar.DATE, 1), date = start.getTime()) {
+         System.out.println(df.format(date) + "\t" + calendar.getWork(date, TimeUnit.HOURS));
+      }
+
+      System.out.println();
    }
 }
