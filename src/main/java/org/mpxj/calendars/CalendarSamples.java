@@ -216,6 +216,15 @@ public class CalendarSamples {
 
       dateDump(calendar, "24/09/2022", "01/10/2022");
       dateDump(calendar, "01/10/2022", "08/10/2022");
+
+      //
+      // Creating a recurring exception
+      //
+      exceptionStartDate = df.parse("25/12/2022");
+      exceptionEndDate = df.parse("25/12/2030");
+      exception = calendar.addCalendarException(exceptionStartDate, exceptionEndDate);
+      RecurringData recurringData = new RecurringData();
+      exception.setRecurring(recurringData);
    }
 
    private void simpleCalendarDump(ProjectCalendarDays calendar)
