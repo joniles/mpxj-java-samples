@@ -220,11 +220,15 @@ public class CalendarSamples {
       //
       // Creating a recurring exception
       //
-      exceptionStartDate = df.parse("25/12/2022");
-      exceptionEndDate = df.parse("25/12/2030");
-      exception = calendar.addCalendarException(exceptionStartDate, exceptionEndDate);
       RecurringData recurringData = new RecurringData();
-      exception.setRecurring(recurringData);
+      exception = calendar.addCalendarException(recurringData);
+
+      recurringData.setRecurrenceType(RecurrenceType.YEARLY);
+      recurringData.setOccurrences(5);
+      recurringData.setDayNumber(Integer.valueOf(1));
+      recurringData.setMonthNumber(Integer.valueOf(1));
+      recurringData.setStartDate(df.parse("01/01/2023"));
+      System.out.println(recurringData);
    }
 
    private void simpleCalendarDump(ProjectCalendarDays calendar)
