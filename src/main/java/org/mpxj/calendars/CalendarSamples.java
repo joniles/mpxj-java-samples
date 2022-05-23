@@ -5,10 +5,6 @@ import net.sf.mpxj.common.DateHelper;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -19,7 +15,9 @@ public class CalendarSamples {
 
    public static void main(String[] argv) throws Exception {
       CalendarSamples samples = new CalendarSamples();
-      samples.process();
+      //samples.process();
+      //samples.calendarHierarchy();
+      samples.calendarUniqueID();
    }
 
    private void process() throws Exception {
@@ -150,7 +148,7 @@ public class CalendarSamples {
       boolean workingDate = calendar.isWorkingDate(exceptionDate);
       System.out.println(df.format(exceptionDate) + " is a " + (workingDate ? "working" : "non-working") + " day");
 
-      ProjectCalendarException exception = calendar.addCalendarException(exceptionDate, exceptionDate);
+      ProjectCalendarException exception = calendar.addCalendarException(exceptionDate);
       exception.setName("A day off");
 
       workingDate = calendar.isWorkingDate(exceptionDate);
@@ -231,12 +229,6 @@ public class CalendarSamples {
       System.out.println(recurringData);
    }
 
-   private void calendarHierarchy()
-   {
-      ProjectFile file = new ProjectFile();
-      file.addCalendar();
-   }
-
    private void simpleCalendarDump(ProjectCalendarDays calendar)
    {
       for (Day day : Day.values()) {
@@ -278,5 +270,55 @@ public class CalendarSamples {
       }
 
       System.out.println();
+   }
+
+   private void calendarHierarchy() throws Exception
+   {
+      DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+
+      ProjectFile file = new ProjectFile();
+      ProjectCalendar parentCalendar = file.addDefaultBaseCalendar();
+      Date christmasDay = df.parse("25/12/2023");
+      parentCalendar.addCalendarException(christmasDay);
+
+      ProjectCalendar childCalendar = file.addDefaultDerivedCalendar();
+      childCalendar.setParent(parentCalendar);
+
+      System.out.println(christmasDay + " is a working day: " + childCalendar.isWorkingDate(christmasDay));
+      System.out.println();
+
+      parentCalendar.setDayType(Day.TUESDAY, DayType.NON_WORKING);
+      System.out.println("Is " + Day.TUESDAY + " a working day: " + childCalendar.isWorkingDay(Day.TUESDAY));
+      System.out.println();
+
+      simpleCalendarDump(parentCalendar);
+      simpleCalendarDump(childCalendar);
+
+      childCalendar.setDayType(Day.TUESDAY, DayType.WORKING);
+      Date startTime = DateHelper.getTime(9, 0);
+      Date finishTime = DateHelper.getTime(12, 30);
+      childCalendar.addCalendarHours(Day.TUESDAY).add(new DateRange(startTime, finishTime));
+   }
+
+   private void calendarUniqueID()
+   {
+      ProjectFile file = new ProjectFile();
+      ProjectCalendar calendar1 = file.addCalendar();
+      calendar1.setName("Calendar 1");
+
+      ProjectCalendar calendar2 = file.addCalendar();
+      calendar2.setName("Calendar 2");
+
+      ProjectCalendar calendar3 = file.addCalendar();
+      calendar3.setName("Calendar 3");
+
+      file.getCalendars().forEach(c -> System.out.println(c.getName()));
+      System.out.println();
+
+      file.getCalendars().forEach(c -> System.out.println(c.getName() + " (Unique ID: " + c.getUniqueID() + ")"));
+      System.out.println();
+
+      ProjectCalendar calendar = file.getCalendars().getByUniqueID(2);
+      System.out.println(calendar.getName());
    }
 }
