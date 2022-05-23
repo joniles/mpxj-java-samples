@@ -231,6 +231,12 @@ public class CalendarSamples {
       System.out.println(recurringData);
    }
 
+   private void calendarHierarchy()
+   {
+      ProjectFile file = new ProjectFile();
+      file.addCalendar();
+   }
+
    private void simpleCalendarDump(ProjectCalendarDays calendar)
    {
       for (Day day : Day.values()) {
