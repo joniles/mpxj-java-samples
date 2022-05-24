@@ -15,12 +15,13 @@ public class CalendarSamples {
 
    public static void main(String[] argv) throws Exception {
       CalendarSamples samples = new CalendarSamples();
-      //samples.process();
-      //samples.calendarHierarchy();
+      samples.basicOperations();
+      samples.calendarHierarchy();
       samples.calendarUniqueID();
+      samples.defaultCalendar();
    }
 
-   private void process() throws Exception {
+   private void basicOperations() throws Exception {
       //
       // Create a default calendar
       //
@@ -287,14 +288,14 @@ public class CalendarSamples {
       System.out.println(christmasDay + " is a working day: " + childCalendar.isWorkingDate(christmasDay));
       System.out.println();
 
-      parentCalendar.setDayType(Day.TUESDAY, DayType.NON_WORKING);
+      parentCalendar.setCalendarDayType(Day.TUESDAY, DayType.NON_WORKING);
       System.out.println("Is " + Day.TUESDAY + " a working day: " + childCalendar.isWorkingDay(Day.TUESDAY));
       System.out.println();
 
       simpleCalendarDump(parentCalendar);
       simpleCalendarDump(childCalendar);
 
-      childCalendar.setDayType(Day.TUESDAY, DayType.WORKING);
+      childCalendar.setCalendarDayType(Day.TUESDAY, DayType.WORKING);
       Date startTime = DateHelper.getTime(9, 0);
       Date finishTime = DateHelper.getTime(12, 30);
       childCalendar.addCalendarHours(Day.TUESDAY).add(new DateRange(startTime, finishTime));
@@ -320,5 +321,13 @@ public class CalendarSamples {
 
       ProjectCalendar calendar = file.getCalendars().getByUniqueID(2);
       System.out.println(calendar.getName());
+   }
+
+   private void defaultCalendar()
+   {
+      ProjectFile file = new ProjectFile();
+      ProjectCalendar calendar = file.addDefaultBaseCalendar();
+      file.setDefaultCalendar(calendar);
+      System.out.println("The default calendar name is " + file.getDefaultCalendar().getName());
    }
 }
