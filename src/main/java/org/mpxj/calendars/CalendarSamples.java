@@ -340,9 +340,15 @@ public class CalendarSamples {
       ProjectFile file = new ProjectFile();
       ProjectCalendar calendar = file.addDefaultBaseCalendar();
 
+      //
+      // Add an exception without hours - this makes the day non-working
+      //
       ProjectCalendarException nonWorkingException  = calendar.addCalendarException(df.parse("2022-05-23"));
       System.out.println("Exception represents a working day: " + !nonWorkingException.isEmpty());
 
+      //
+      // Add an exception with hours to make this day working but with non-default hours
+      //
       ProjectCalendarException workingException  = calendar.addCalendarException(df.parse("2022-05-24"));
       Date startTime = DateHelper.getTime(9, 0);
       Date finishTime = DateHelper.getTime(13, 0);
