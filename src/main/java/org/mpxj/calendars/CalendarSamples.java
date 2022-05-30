@@ -19,6 +19,7 @@ public class CalendarSamples {
       samples.calendarHierarchy();
       samples.calendarUniqueID();
       samples.defaultCalendar();
+      samples.workingOrNonWorkingExceptions();
    }
 
    private void basicOperations() throws Exception {
@@ -329,5 +330,23 @@ public class CalendarSamples {
       ProjectCalendar calendar = file.addDefaultBaseCalendar();
       file.setDefaultCalendar(calendar);
       System.out.println("The default calendar name is " + file.getDefaultCalendar().getName());
+      System.out.println();
+   }
+
+   private void workingOrNonWorkingExceptions() throws Exception
+   {
+      DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+      ProjectFile file = new ProjectFile();
+      ProjectCalendar calendar = file.addDefaultBaseCalendar();
+
+      ProjectCalendarException nonWorkingException  = calendar.addCalendarException(df.parse("2022-05-23"));
+      System.out.println("Exception represents a working day: " + !nonWorkingException.isEmpty());
+
+      ProjectCalendarException workingException  = calendar.addCalendarException(df.parse("2022-05-24"));
+      Date startTime = DateHelper.getTime(9, 0);
+      Date finishTime = DateHelper.getTime(13, 0);
+      workingException.add(new DateRange(startTime, finishTime));
+      System.out.println("Exception represents a working day: " + !workingException.isEmpty());
    }
 }
