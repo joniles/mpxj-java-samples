@@ -1,6 +1,7 @@
 package org.mpxj.activity_codes;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -23,7 +24,7 @@ public class ReadActivityCodes
 
 
    /**
-    * Reads a schedule file and displays any activity code definitons it contains,
+    * Reads a schedule file and displays any activity code definitions it contains,
     * then lists all tasks along with any activity code value assignments.
     *
     * @param fileName file to open
@@ -58,7 +59,7 @@ public class ReadActivityCodes
             String sequenceNumber = "Sequence: " + value.getSequenceNumber();
             String color = value.getColor() == null ? null : "Color: " + getColor(value);
 
-            String label = Stream.of(parent, description, sequenceNumber, color).filter(s -> s != null).collect(Collectors.joining(", "));
+            String label = Stream.of(parent, description, sequenceNumber, color).filter(Objects::nonNull).collect(Collectors.joining(", "));
             System.out.println("\t" + value.getUniqueID() + ":\t" + value.getName() + "\t(" + label + ")");
          }
          System.out.println();
@@ -68,14 +69,14 @@ public class ReadActivityCodes
       //
       // Display all tasks along with any activity codes assigned
       //
-      System.out.println("Task and activity code value assignments");
+      System.out.println("Tasks showing any activity code values they have been assigned");
       for (Task task : file.getTasks())
       {
          //
          // Display task details
          //
          System.out.println(task.getUniqueID() + ":\t" + task.getActivityID() + "\t" + task.getName());
-         
+
          //
          // Display any activity code values for this task
          //
