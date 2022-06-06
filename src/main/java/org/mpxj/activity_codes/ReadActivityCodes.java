@@ -22,22 +22,35 @@ public class ReadActivityCodes
    }
 
 
+   /**
+    * Reads a schedule file and displays any activity code definitons it contains,
+    * then lists all tasks along with any activity code value assignments.
+    *
+    * @param fileName file to open
+    */
    private void process(String fileName) throws Exception
    {
       ProjectFile file = new UniversalProjectReader().read(fileName);
 
+      //
+      // Display activity code definitions
+      //
       System.out.println("This file contains the following activity code definitions:");
       for (ActivityCode code : file.getActivityCodes())
       {
+         //
+         // Display definition of this activity code
+         //
          String scope = "Scope: " + code.getScope();
          if (code.getScope() != ActivityCodeScope.GLOBAL)
          {
             scope = scope + " (ID: " + code.getScopeUniqueID() + ")";
          }
-
          System.out.println(code.getUniqueID() + ": " + code.getName() + " (Sequence: " +code.getSequenceNumber() + ", " + scope + ")");
 
-         
+         //
+         // Display the values defined for this activity code
+         //
          for (ActivityCodeValue value : code.getValues())
          {
             String parent = value.getParent() == null ? null : "Parent: " + value.getParent().getUniqueID();
@@ -52,10 +65,20 @@ public class ReadActivityCodes
       }
       System.out.println();
 
-      System.out.println("");
+      //
+      // Display all tasks along with any activity codes assigned
+      //
+      System.out.println("Task and activity code value assignments");
       for (Task task : file.getTasks())
       {
+         //
+         // Display task details
+         //
          System.out.println(task.getUniqueID() + ":\t" + task.getActivityID() + "\t" + task.getName());
+         
+         //
+         // Display any activity code values for this task
+         //
          List<ActivityCodeValue> values = task.getActivityCodes();
          if (values.isEmpty())
          {
