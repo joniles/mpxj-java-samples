@@ -1,11 +1,10 @@
 package org.mpxj.activity_codes;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import net.sf.mpxj.ActivityCode;
-import net.sf.mpxj.ActivityCodeValue;
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.Task;
+import net.sf.mpxj.*;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
 public class ReadActivityCodes
@@ -30,14 +29,24 @@ public class ReadActivityCodes
       System.out.println("This file contains the following activity code definitions:");
       for (ActivityCode code : file.getActivityCodes())
       {
-         System.out.println(code.getUniqueID() + ": " + code.getName());
+         String scope = "Scope: " + code.getScope();
+         if (code.getScope() != ActivityCodeScope.GLOBAL)
+         {
+            scope = scope + " (ID: " + code.getScopeUniqueID() + ")";
+         }
+
+         System.out.println(code.getUniqueID() + ": " + code.getName() + " (Sequence: " +code.getSequenceNumber() + ", " + scope + ")");
+
+         
          for (ActivityCodeValue value : code.getValues())
          {
-            String parent = value.getParent() == null ? "" : "Parent: " + value.getParent().getUniqueID();
-            String description = value.getDescription() == null || value.getDescription().isEmpty() ? "" : "Description: " + value.getDescription();
-            String space = !parent.isEmpty() && !description.isEmpty() ? " " : "";
+            String parent = value.getParent() == null ? null : "Parent: " + value.getParent().getUniqueID();
+            String description = value.getDescription() == null || value.getDescription().isEmpty() ? null : "Description: " + value.getDescription();
+            String sequenceNumber = "Sequence: " + value.getSequenceNumber();
+            String color = value.getColor() == null ? null : "Color: " + getColor(value);
 
-            System.out.println("\t" + value.getUniqueID() + ":\t" + value.getName() + "\t(" + parent + space + description + ")");
+            String label = Stream.of(parent, description, sequenceNumber, color).filter(s -> s != null).collect(Collectors.joining(", "));
+            System.out.println("\t" + value.getUniqueID() + ":\t" + value.getName() + "\t(" + label + ")");
          }
          System.out.println();
       }
@@ -60,5 +69,11 @@ public class ReadActivityCodes
             }
          }
       }
+   }
+
+   private String getColor(ActivityCodeValue value)
+   {
+      String stringValue = "000000" + Integer.toHexString(value.getColor().getRGB()).toUpperCase();
+      return "#" + stringValue.substring(stringValue.length() - 6);
    }
 }
