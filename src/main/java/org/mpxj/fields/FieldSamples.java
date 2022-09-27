@@ -16,7 +16,9 @@ public class FieldSamples {
         FieldSamples samples = new FieldSamples();
         //samples.basicOperations();
         //samples.startVariance();
-        samples.fieldType();
+        //samples.fieldType();
+        //samples.getCachedValue();
+        samples.customFields();
     }
 
     private void basicOperations() throws Exception
@@ -85,29 +87,27 @@ public class FieldSamples {
         System.out.println("Start Variance from method: " + task2.getStartVariance());
         System.out.println("Start Variance from get: " + task2.get(TaskField.START_VARIANCE));
         System.out.println();
+    }
 
-        // Use the getCachedValue method
-        System.out.println("Task1 Start Variance cached value: " + task1.getCachedValue(TaskField.START_VARIANCE));
-        System.out.println("Task2 Start Variance cached value: " + task2.getCachedValue(TaskField.START_VARIANCE));
+    private void getCachedValue() throws Exception
+    {
+        // Set up the sample project with a default calendar
+        ProjectFile file = new ProjectFile();
+        file.setDefaultCalendar(file.addDefaultBaseCalendar());
 
-        /// Clear the cached start variance by updating one of its dependencies
-        baselineStart = df.parse("03/05/2022");
-        task1.setBaselineStart(baselineStart);
+        // Set up example dates
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        Date baselineStart = df.parse("01/05/2022");
+        Date startDate = df.parse("10/05/2022");
 
-        // Explicitly clear the start variance
-        task2.setStartVariance(null);
+        // Create a task
+        Task task = file.addTask();
+        task.setStart(startDate);
+        task.setBaselineStart(baselineStart);
 
-        // We no longer have cached values
-        System.out.println("Task1 Start Variance: " + task1.getCachedValue(TaskField.START_VARIANCE));
-        System.out.println("Task2 Start Variance: " + task2.getCachedValue(TaskField.START_VARIANCE));
-        System.out.println();
-
-        System.out.println("Task1 Start Variance from method: " + task1.getStartVariance());
-        System.out.println("Task2 Start Variance from method: " + task2.getStartVariance());
-        System.out.println();
-
-        System.out.println("Task1 Start Variance cached value: " + task1.getCachedValue(TaskField.START_VARIANCE));
-        System.out.println("Task2 Start Variance cached value: " + task2.getCachedValue(TaskField.START_VARIANCE));
+        System.out.println("Start Variance using getCachedValue(): " + task.getCachedValue(TaskField.START_VARIANCE));
+        System.out.println("Start Variance using get(): " + task.get(TaskField.START_VARIANCE));
+        System.out.println("Start Variance using getCachedValue(): " + task.getCachedValue(TaskField.START_VARIANCE));
     }
 
     private void indexedFields()
@@ -180,5 +180,34 @@ public class FieldSamples {
         }
 
         return result;
+    }
+
+    private void customFields() throws Exception
+    {
+        ProjectFile file = new UniversalProjectReader().read("example.mpp");
+        // Let's see what has been configured in our sample file
+        CustomFieldContainer container = file.getCustomFields();
+        for (CustomField field : container)
+        {
+            FieldType type = field.getFieldType();
+            String typeClass = type.getFieldTypeClass().toString();
+            String typeName = type.name();
+            String alias = field.getAlias();
+            System.out.println(typeClass + "." + typeName + "\t" + alias);
+        }
+
+        // Retrieve the CustomField entry for Text 1, if it has one
+        CustomField fieldConfiguration = container.get(TaskField.TEXT1);
+
+        // Retrieve the field type for a task field with a particular alias
+        FieldType fieldType = container.getFieldTypeByAlias(FieldTypeClass.TASK, "Number of Widgets Required");
+
+        // Use the type we've retrieved to retrieve the field value from a task
+        Task task = file.getTaskByID(Integer.valueOf(1));
+        Object value = task.get(fieldType);
+
+        fieldType = file.getTasks().getFieldTypeByAlias("Number of Widgets Required");
+
+        value = task.getFieldByAlias("Number of Widgets Required");
     }
 }
