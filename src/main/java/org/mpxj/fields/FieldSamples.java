@@ -127,10 +127,10 @@ public class FieldSamples {
     private void populatedFields() throws Exception
     {
         ProjectFile file = new UniversalProjectReader().read("example.mpp");
-        Set<ProjectField> populatedProjectFields = file.getProjectProperties().getPopulatedFields();
-        Set<TaskField> populatedTaskFields = file.getTasks().getPopulatedFields();
-        Set<ResourceField> populatedResourceFields = file.getResources().getPopulatedFields();
-        Set<AssignmentField> populatedAssignmentFields = file.getResourceAssignments().getPopulatedFields();
+        Set<FieldType> populatedProjectFields = file.getProjectProperties().getPopulatedFields();
+        Set<FieldType> populatedTaskFields = file.getTasks().getPopulatedFields();
+        Set<FieldType> populatedResourceFields = file.getResources().getPopulatedFields();
+        Set<FieldType> populatedAssignmentFields = file.getResourceAssignments().getPopulatedFields();
     }
 
     private void fieldType()
