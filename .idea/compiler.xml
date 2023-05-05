@@ -9,8 +9,5 @@
         <module name="mpxj-java-samples" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="mpxj-java-samples" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>
