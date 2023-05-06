@@ -29,6 +29,21 @@ public class ExternalSamples {
         }
     }
 
+    private void identifyExternalTasks() throws Exception
+    {
+        ProjectFile file = new UniversalProjectReader().read("sample.mpp");
+        for (Task task : file.getTasks())
+        {
+            if (task.getExternalTask())
+            {
+                System.out.println(task.getName() + " is an external predecessor");
+                System.out.println("The path to the file containing this task is: " + task.getSubprojectFile());
+                System.out.println("The ID of the task in this file is: " + task.getSubprojectTaskID());
+                System.out.println("The Unique ID of the task in this file is: " + task.getSubprojectTaskUniqueID());
+            }
+        }
+    }
+
     private void openingExternalProjects() throws Exception {
         ProjectFile file = new UniversalProjectReader().read("sample.mpp");
         Task externalProject = file.getTaskByID(Integer.valueOf(1));
@@ -44,7 +59,7 @@ public class ExternalSamples {
 
     private void openingExternalProjectsUsingMpxjWithWorkingDir() throws Exception {
         ProjectFile file = new UniversalProjectReader().read("sample.mpp");
-        file.setSubprojectWorkingDirectory(new File("/path/to/directory"));
+        file.getProjectConfig().setSubprojectWorkingDirectory(new File("/path/to/directory"));
         Task externalProjectTask = file.getTaskByID(Integer.valueOf(1));
         ProjectFile externalProjectFile = externalProjectTask.getSubprojectObject();
     }
@@ -67,4 +82,15 @@ public class ExternalSamples {
         System.out.println("Task has child tasks: " + externalProjectTask.hasChildTasks());
     }
 
+    private void resourcePoolFile() throws Exception
+    {
+        ProjectFile file = new UniversalProjectReader().read("sample.mpp");
+        String path = file.getProjectProperties().getResourcePoolFile();
+    }
+
+    private void resourcePoolObject() throws Exception
+    {
+        ProjectFile file = new UniversalProjectReader().read("sample.mpp");
+        ProjectFile resourcePool = file.getProjectProperties().getResourcePoolObject();
+    }
 }

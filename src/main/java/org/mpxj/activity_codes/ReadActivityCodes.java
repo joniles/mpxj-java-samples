@@ -43,9 +43,19 @@ public class ReadActivityCodes
          // Display definition of this activity code
          //
          String scope = "Scope: " + code.getScope();
-         if (code.getScope() != ActivityCodeScope.GLOBAL)
+         switch (code.getScope())
          {
-            scope = scope + " (ID: " + code.getScopeUniqueID() + ")";
+            case EPS:
+            {
+               scope = scope + " (EPS ID: " + code.getScopeEpsUniqueID() + ")";
+               break;
+            }
+
+            case PROJECT:
+            {
+               scope = scope + " (PROJECT ID: " + code.getScopeProjectUniqueID() + ")";
+               break;
+            }
          }
          System.out.println(code.getUniqueID() + ": " + code.getName() + " (Sequence: " +code.getSequenceNumber() + ", " + scope + ")");
 
