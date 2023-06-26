@@ -5,7 +5,6 @@ import net.sf.mpxj.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,7 +51,7 @@ public class CalendarSamples {
       // Show a formatted version of Tuesday's working hours
       //
       System.out.println("Show a formatted version of Tuesday's working hours");
-      System.out.println(formatDateRanges(hours));
+      System.out.println(formatLocalTimeRanges(hours));
       System.out.println();
 
       //
@@ -74,7 +73,7 @@ public class CalendarSamples {
       // Create our own working hours for Saturday
       //
       System.out.println("Create our own working hours for Saturday");
-      LocalTime startTime = LocalTime.of(9,0);
+      LocalTime startTime = LocalTime.of(9, 0);
       LocalTime finishTime = LocalTime.of(14, 30);
       hours = calendar.getCalendarHours(DayOfWeek.SATURDAY);
       hours.clear();
@@ -91,14 +90,14 @@ public class CalendarSamples {
       System.out.println();
 
       //
-      // Let's try a naive approach to making Saturday 24 hours
+      // Configure 24 hour working
       //
-      System.out.println("Let's try a naive approach to making Saturday 24 hours");
+      System.out.println("Configure 24 hour working");
       startTime = LocalTime.MIDNIGHT;
       finishTime = LocalTime.MIDNIGHT;
       hours.clear();
       hours.add(new LocalTimeRange(startTime, finishTime));
-      System.out.println(formatDateRanges(calendar.getCalendarHours(DayOfWeek.SATURDAY)));
+      System.out.println(formatLocalTimeRanges(calendar.getCalendarHours(DayOfWeek.SATURDAY)));
 
       duration = calendar.getWork(DayOfWeek.SATURDAY, TimeUnit.HOURS);
       System.out.println(duration);
@@ -111,7 +110,8 @@ public class CalendarSamples {
       LocalDate exceptionDate = LocalDate.of(2022, 5, 10);
 
       boolean workingDate = calendar.isWorkingDate(exceptionDate);
-      System.out.println(exceptionDate + " is a " + (workingDate ? "working" : "non-working") + " day");
+      System.out.println(exceptionDate + " is a "
+         + (workingDate ? "working" : "non-working") + " day");
 
       ProjectCalendarException exception = calendar.addCalendarException(exceptionDate);
       exception.setName("A day off");
@@ -127,7 +127,8 @@ public class CalendarSamples {
       finishTime = LocalTime.of(12, 0);
       exception.add(new LocalTimeRange(startTime, finishTime));
       workingDate = calendar.isWorkingDate(exceptionDate);
-      System.out.println(exceptionDate + " is a " + (workingDate ? "working" : "non-working") + " day");
+      System.out.println(exceptionDate + " is a "
+         + (workingDate ? "working" : "non-working") + " day");
 
       System.out.println("Working time on Tuesdays is normally "
          + calendar.getWork(DayOfWeek.TUESDAY, TimeUnit.HOURS) + " but on "
@@ -172,7 +173,8 @@ public class CalendarSamples {
       startTime = LocalTime.of(5, 0);
       finishTime = LocalTime.of(21, 0);
       LocalTimeRange weekdayHours = new LocalTimeRange(startTime, finishTime);
-      Arrays.asList(DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY, DayOfWeek.FRIDAY)
+      Arrays.asList(DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY,
+            DayOfWeek.THURSDAY, DayOfWeek.FRIDAY)
          .stream().forEach(d -> week.addCalendarHours(d).add(weekdayHours));
 
       detailedCalendarDump(week);
@@ -209,15 +211,14 @@ public class CalendarSamples {
          String dayType = calendar.getCalendarDayType(day).toString();
          System.out.println(day
             + " is a " + dayType + " day ("
-            + formatDateRanges(calendar.getCalendarHours(day)) + ")");
+            + formatLocalTimeRanges(calendar.getCalendarHours(day)) + ")");
       }
       System.out.println();
    }
 
-   private String formatDateRanges(List<LocalTimeRange> hours) {
-      DateTimeFormatter df = DateTimeFormatter.ofPattern("HH:mm");
+   private String formatLocalTimeRanges(List<LocalTimeRange> hours) {
       return hours.stream()
-         .map(h -> df.format(h.getStart()) + "-" + df.format(h.getEnd()))
+         .map(h -> h.getStart() + "-" + h.getEnd())
          .collect(Collectors.joining(", "));
    }
 

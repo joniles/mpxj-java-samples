@@ -14,31 +14,34 @@ public class FieldSamples {
 
     public static void main(String[] argv) throws Exception {
         FieldSamples samples = new FieldSamples();
-        //samples.basicOperations();
-        //samples.startVariance();
-        //samples.fieldType();
-        //samples.getCachedValue();
-        samples.customFields();
+        samples.basicOperations();
+        samples.startVariance();
+        samples.getCachedValue();
+        samples.fieldType();
+        //samples.customFields();
     }
 
     private void basicOperations()
     {
-        // Set up the sample project
+        System.out.println("Basic Operations");
+
+        // EXAMPLE: Set up the sample project
         ProjectFile file = new ProjectFile();
         Task task = file.addTask();
 
-        // Set and retrieve the name
+        // EXAMPLE: Set and retrieve the name
         task.setName("Task 1");
 
         String name = task.getName();
         System.out.println("Task name: " + name);
 
-        // Set the start date
+        // EXAMPLE: Set the start date
         LocalDateTime startDate = LocalDateTime.of(2022, 5, 10, 8, 0);
         task.setStart(startDate);
 
         System.out.println("Start date: " + task.getStart());
 
+        // EXAMPLE: field enumerations
         task = file.addTask();
         task.set(TaskField.NAME, "Task 2");
 
@@ -49,11 +52,14 @@ public class FieldSamples {
         task.set(TaskField.START, startDate);
 
         System.out.println("Start date: " + task.getStart());
+        System.out.println();
     }
 
     private void startVariance()
     {
-        // Set up the sample project
+        System.out.println("Start Variance");
+
+        // EXAMPLE: Set up the sample project
         ProjectFile file = new ProjectFile();
 
         // We need at least a default calendar to calculate variance
@@ -77,19 +83,26 @@ public class FieldSamples {
 
         // Show the variance being retrieved by method and TaskField enumeration
         System.out.println("Task 1");
-        System.out.println("Start Variance from method: " + task1.getStartVariance());
-        System.out.println("Start Variance from get: " + task1.get(TaskField.START_VARIANCE));
+        System.out.println("Start Variance from method: "
+           + task1.getStartVariance());
+        System.out.println("Start Variance from get: "
+           + task1.get(TaskField.START_VARIANCE));
         System.out.println();
 
         System.out.println("Task 2");
-        System.out.println("Start Variance from method: " + task2.getStartVariance());
-        System.out.println("Start Variance from get: " + task2.get(TaskField.START_VARIANCE));
+        System.out.println("Start Variance from method: "
+           + task2.getStartVariance());
+        System.out.println("Start Variance from get: "
+           + task2.get(TaskField.START_VARIANCE));
+
         System.out.println();
     }
 
     private void getCachedValue()
     {
-        // Set up the sample project with a default calendar
+        System.out.println("Get Cached Value");
+
+        // EXAMPLE: Set up the sample project with a default calendar
         ProjectFile file = new ProjectFile();
         file.setDefaultCalendar(file.addDefaultBaseCalendar());
 
@@ -102,9 +115,14 @@ public class FieldSamples {
         task.setStart(startDate);
         task.setBaselineStart(baselineStart);
 
-        System.out.println("Start Variance using getCachedValue(): " + task.getCachedValue(TaskField.START_VARIANCE));
-        System.out.println("Start Variance using get(): " + task.get(TaskField.START_VARIANCE));
-        System.out.println("Start Variance using getCachedValue(): " + task.getCachedValue(TaskField.START_VARIANCE));
+        System.out.println("Start Variance using getCachedValue(): "
+           + task.getCachedValue(TaskField.START_VARIANCE));
+        System.out.println("Start Variance using get(): "
+           + task.get(TaskField.START_VARIANCE));
+        System.out.println("Start Variance using getCachedValue(): "
+           + task.getCachedValue(TaskField.START_VARIANCE));
+
+        System.out.println();
     }
 
     private void indexedFields()
@@ -132,15 +150,19 @@ public class FieldSamples {
 
     private void fieldType()
     {
+        System.out.println("Field Type");
+
         FieldType type = TaskField.START_VARIANCE;
         System.out.println("name(): " + type.name());
         System.out.println("getName(): " + type.getName());
         System.out.println("getFieldTypeClass(): " + type.getFieldTypeClass());
         System.out.println("getDataType(): " + type.getDataType());
+
+        System.out.println();
     }
 
 
-    private String getStringValue(FieldContainer container, FieldType type)
+    private String getValueAsText(FieldContainer container, FieldType type)
     {
         Object value = container.get(type);
         if (value == null)
