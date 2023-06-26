@@ -3,10 +3,10 @@ package org.mpxj.fields;
 import net.sf.mpxj.*;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
-import java.text.DateFormat;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Set;
 
@@ -21,7 +21,7 @@ public class FieldSamples {
         samples.customFields();
     }
 
-    private void basicOperations() throws Exception
+    private void basicOperations()
     {
         // Set up the sample project
         ProjectFile file = new ProjectFile();
@@ -34,11 +34,10 @@ public class FieldSamples {
         System.out.println("Task name: " + name);
 
         // Set the start date
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        Date startDate = df.parse("10/05/2022");
+        LocalDateTime startDate = LocalDateTime.of(2022, 5, 10, 8, 0);
         task.setStart(startDate);
 
-        System.out.println("Start date: " + df.format(task.getStart()));
+        System.out.println("Start date: " + task.getStart());
 
         task = file.addTask();
         task.set(TaskField.NAME, "Task 2");
@@ -46,13 +45,13 @@ public class FieldSamples {
         name = (String)task.get(TaskField.NAME);
         System.out.println("Task name: " + name);
 
-        startDate = df.parse("11/05/2022");
+        startDate = LocalDateTime.of(2022, 5, 11, 8, 0);
         task.set(TaskField.START, startDate);
 
-        System.out.println("Start date: " + df.format(task.getStart()));
+        System.out.println("Start date: " + task.getStart());
     }
 
-    private void startVariance() throws Exception
+    private void startVariance()
     {
         // Set up the sample project
         ProjectFile file = new ProjectFile();
@@ -65,9 +64,8 @@ public class FieldSamples {
         Task task2 = file.addTask();
 
         // Set up example dates
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        Date baselineStart = df.parse("01/05/2022");
-        Date startDate = df.parse("10/05/2022");
+        LocalDateTime baselineStart = LocalDateTime.of(2022, 5, 1, 8, 0);
+        LocalDateTime startDate = LocalDateTime.of(2022,5, 10, 8, 0);
 
         // Update task1 using methods
         task1.setStart(startDate);
@@ -89,16 +87,15 @@ public class FieldSamples {
         System.out.println();
     }
 
-    private void getCachedValue() throws Exception
+    private void getCachedValue()
     {
         // Set up the sample project with a default calendar
         ProjectFile file = new ProjectFile();
         file.setDefaultCalendar(file.addDefaultBaseCalendar());
 
         // Set up example dates
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        Date baselineStart = df.parse("01/05/2022");
-        Date startDate = df.parse("10/05/2022");
+        LocalDateTime baselineStart = LocalDateTime.of(2022, 5, 1, 8, 0);
+        LocalDateTime startDate = LocalDateTime.of(2022,5, 10, 8, 0);
 
         // Create a task
         Task task = file.addTask();
@@ -156,13 +153,13 @@ public class FieldSamples {
         {
             case CURRENCY:
             {
-                result = new DecimalFormat("£0.00").format((Number)value);
+                result = new DecimalFormat("£0.00").format(value);
                 break;
             }
 
             case DATE:
             {
-                result = new SimpleDateFormat("dd/MM/yyyy").format((Date)value);
+                result = DateTimeFormatter.ofPattern("dd/MM/yyyy").format((LocalDateTime)value);
                 break;
             }
 
