@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class CalendarSamples {
 
-   public static void main(String[] argv) throws Exception {
+   public static void main(String[] argv) {
       CalendarSamples samples = new CalendarSamples();
       samples.basicOperations();
       samples.calendarHierarchy();
@@ -20,7 +20,7 @@ public class CalendarSamples {
       samples.workingOrNonWorkingExceptions();
    }
 
-   private void basicOperations() throws Exception {
+   private void basicOperations() {
       //
       // Create a default calendar
       //
