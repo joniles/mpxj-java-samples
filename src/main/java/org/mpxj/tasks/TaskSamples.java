@@ -9,9 +9,16 @@ public class TaskSamples
 {
    public static void main(String[] args) throws Exception
    {
-      new TaskSamples().listTaskHierarchy("/Users/joniles/Downloads/ImportTest.mpp");
+      new TaskSamples().listTaskHierarchy("sample.mpp");
    }
 
+   /**
+    * Recursively descend through the task hierarchy displaying the
+    * task ID and the name, using tabs as indents to show the
+    * task hierarchy.
+    *
+    * @param fileName file to read
+    */
    public void listTaskHierarchy(String fileName) throws Exception
    {
       ProjectFile file = new UniversalProjectReader().read(fileName);
