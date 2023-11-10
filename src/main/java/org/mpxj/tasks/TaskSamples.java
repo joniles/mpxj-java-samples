@@ -9,7 +9,8 @@ public class TaskSamples
 {
    public static void main(String[] args) throws Exception
    {
-      new TaskSamples().listTaskHierarchy("sample.mpp");
+      //new TaskSamples().listTaskHierarchy("sample.mpp");
+      new TaskSamples().listTaskDates("sample.mpp");
    }
 
    /**
@@ -32,5 +33,17 @@ public class TaskSamples
          System.out.println(String.format("%3d", task.getID()) + indent + task.getName().trim());
          listTaskHierarchy(task, indent + "\t");
       }
+   }
+
+   public void listTaskDates(String fileName) throws Exception
+   {
+      System.out.println(fileName);
+      ProjectFile file = new UniversalProjectReader().read(fileName);
+      System.out.println("ID\tActualStart\tActualDuration\tRemainingDuration");
+      for(Task task : file.getTasks())
+      {
+         System.out.println(task.getID() + "\t" + task.getActualStart() + "\t" + task.getActualDuration() + "\t" + task.getRemainingDuration());
+      }
+      System.out.println();
    }
 }
