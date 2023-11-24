@@ -1,17 +1,17 @@
 package org.mpxj.external;
 
-import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
+import net.sf.mpxj.Relation;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
 import java.io.File;
+import java.util.List;
 
 public class ExternalSamples {
     public static void main(String[] argv) throws Exception {
         ExternalSamples samples = new ExternalSamples();
-        samples.identifyExternalProjects();
-        samples.openingExternalProjects();
+        samples.expandSubprojectAndTraverse();
     }
 
     private void identifyExternalProjects() throws Exception
@@ -74,7 +74,7 @@ public class ExternalSamples {
 
     private void expandAllExternalProjects() throws Exception {
         ProjectFile file = new UniversalProjectReader().read("sample.mpp");
-        file.expandSubprojects();
+        file.expandSubprojects(false);
 
         Task externalProjectTask = file.getTaskByID(Integer.valueOf(1));
         System.out.println("Task has child tasks: " + externalProjectTask.hasChildTasks());
@@ -92,5 +92,41 @@ public class ExternalSamples {
     {
         ProjectFile file = new UniversalProjectReader().read("sample.mpp");
         ProjectFile resourcePool = file.getProjectProperties().getResourcePoolObject();
+    }
+
+    private void expandSubprojectAndTraverse() throws Exception
+    {
+        File workingDirectory = new File("/Users/joniles/Downloads/NewSubprojectTestCopy2x");
+        ProjectFile file = new UniversalProjectReader().read(new File(workingDirectory, "MasterProject1.mpp"));
+        file.getProjectConfig().setSubprojectWorkingDirectory(workingDirectory);
+        file.expandSubprojects(true);
+        printTasks("", file.getChildTasks());
+        System.out.println();
+        printPredecessors(file.getChildTasks());
+    }
+
+    private void printTasks(String prefix, List<Task> tasks)
+    {
+        for (Task task : tasks)
+        {
+            System.out.println(prefix + getTaskName(task));
+            printTasks(prefix + " ", task.getChildTasks());
+        }
+    }
+
+    private void printPredecessors(List<Task> tasks)
+    {
+        for (Task task : tasks)
+        {
+            task.getPredecessors().forEach(System.out::println);
+            printPredecessors(task.getChildTasks());
+        }
+    }
+
+    private String getTaskName(Task task)
+    {
+        String externalTaskLabel = task.getExternalTask() ? " [EXTERNAL TASK]" : "";
+        String externalProjectLabel = task.getExternalProject() ? " [EXTERNAL PROJECT]" : "";
+        return task.getName() + externalTaskLabel + externalProjectLabel;
     }
 }
