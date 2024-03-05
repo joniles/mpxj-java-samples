@@ -41,7 +41,7 @@ public class DisplayTimephasedData
 
       for (ResourceAssignment assignment : file.getResourceAssignments())
       {
-         ArrayList<Duration> durationList = timephasedUtility.segmentWork(assignment.getCalendar(), assignment.getTimephasedWork(), units, timescale);
+         ArrayList<Duration> durationList = timephasedUtility.segmentWork(assignment.getEffectiveCalendar(), assignment.getTimephasedWork(), units, timescale);
          System.out.println(assignment);
          for (int index=0; index < timescale.size(); index++)
          {
