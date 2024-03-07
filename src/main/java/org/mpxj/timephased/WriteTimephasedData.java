@@ -6,6 +6,7 @@ import net.sf.mpxj.mspdi.MSPDIWriter;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class WriteTimephasedData {
 
@@ -105,8 +106,8 @@ public class WriteTimephasedData {
       remainingWork.setFinish(LocalDateTime.of(2024, 3, 8, 17, 0));
       remainingWork.setTotalAmount(Duration.getInstance(24, TimeUnit.HOURS));
 
-      DefaultTimephasedWorkContainer work = new DefaultTimephasedWorkContainer(assignment, null, Arrays.asList(day1RemainingWork, day2RemainingWork, remainingWork), false);
-      assignment.setTimephasedWork(work);
+      DefaultTimephasedWorkContainer timephasedRemainingWork = new DefaultTimephasedWorkContainer(assignment, null, Arrays.asList(day1RemainingWork, day2RemainingWork, remainingWork), false);
+      assignment.setTimephasedWork(timephasedRemainingWork);
    }
 
 
@@ -151,8 +152,8 @@ public class WriteTimephasedData {
       remainingWork.setFinish(LocalDateTime.of(2024, 3, 11, 17, 0));
       remainingWork.setTotalAmount(Duration.getInstance(32, TimeUnit.HOURS));
 
-      DefaultTimephasedWorkContainer work = new DefaultTimephasedWorkContainer(assignment, null, Arrays.asList(day1RemainingWork, remainingWork), false);
-      assignment.setTimephasedWork(work);
+      DefaultTimephasedWorkContainer timephasedRemainingWork = new DefaultTimephasedWorkContainer(assignment, null, Arrays.asList(day1RemainingWork, remainingWork), false);
+      assignment.setTimephasedWork(timephasedRemainingWork);
    }
 
    private void addSplitTaskPartiallyCompleteSplit(ProjectFile file) {
@@ -205,10 +206,10 @@ public class WriteTimephasedData {
       remainingWork.setFinish(LocalDateTime.of(2024, 3, 11, 17, 0));
       remainingWork.setTotalAmount(Duration.getInstance(36, TimeUnit.HOURS));
 
-      DefaultTimephasedWorkContainer actualWork = new DefaultTimephasedWorkContainer(assignment, null, Arrays.asList(day1ActualWork), false);
-      assignment.setTimephasedActualWork(actualWork);
+      DefaultTimephasedWorkContainer timephasedActualWork = new DefaultTimephasedWorkContainer(assignment, null, Collections.singletonList(day1ActualWork), false);
+      assignment.setTimephasedActualWork(timephasedActualWork);
 
-      DefaultTimephasedWorkContainer remainingWork = new DefaultTimephasedWorkContainer(assignment, null, Arrays.asList(day1RemainingWork, remainingWork), false);
-      assignment.setTimephasedWork(remainingWork);
+      DefaultTimephasedWorkContainer timephasedRemainingWork = new DefaultTimephasedWorkContainer(assignment, null, Arrays.asList(day1RemainingWork, remainingWork), false);
+      assignment.setTimephasedWork(timephasedRemainingWork);
    }
 }
