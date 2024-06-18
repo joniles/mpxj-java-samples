@@ -4,15 +4,13 @@ import net.sf.mpxj.*;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.Set;
 
 public class FieldSamples {
 
-    public static void main(String[] argv) throws Exception {
+    public static void main(String[] argv)  {
         FieldSamples samples = new FieldSamples();
         samples.basicOperations();
         samples.startVariance();

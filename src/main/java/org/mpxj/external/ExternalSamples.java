@@ -2,7 +2,6 @@ package org.mpxj.external;
 
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.Task;
-import net.sf.mpxj.Relation;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
 import java.io.File;

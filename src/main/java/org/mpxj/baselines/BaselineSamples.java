@@ -76,7 +76,7 @@ public class BaselineSamples
    public void changeBaselineStrategy() throws MPXJException
    {
       PrimaveraPMFileReader reader = new PrimaveraPMFileReader();
-      reader.setBaselineStrategy(PrimaveraBaselineStrategy.CURRENT_DATES);
+      reader.setBaselineStrategy(PrimaveraBaselineStrategy.CURRENT_ATTRIBUTES);
       ProjectFile file = reader.read("sample-pmxml.xml");
    }
 
