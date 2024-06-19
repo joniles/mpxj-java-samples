@@ -235,7 +235,7 @@ public class FieldSamples {
     public void userDefinedFields() throws Exception
     {
         ProjectFile project = new UniversalProjectReader().read("example.mpp");
-        
+
         for (UserDefinedField field : project.getUserDefinedFields())
         {
             System.out.println("name(): " + field.name());
