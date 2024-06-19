@@ -1,4 +1,4 @@
-package org.mpxj.howto.use;
+package org.mpxj.howto.use.baselines;
 
 import net.sf.mpxj.MPXJException;
 import net.sf.mpxj.ProjectFile;
