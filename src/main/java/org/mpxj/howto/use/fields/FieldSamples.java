@@ -1,18 +1,16 @@
-package org.mpxj.fields;
+package org.mpxj.howto.use.fields;
 
 import net.sf.mpxj.*;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.Set;
 
 public class FieldSamples {
 
-    public static void main(String[] argv) throws Exception {
+    public static void main(String[] argv)  {
         FieldSamples samples = new FieldSamples();
         samples.basicOperations();
         samples.startVariance();
@@ -146,6 +144,8 @@ public class FieldSamples {
         Set<FieldType> populatedTaskFields = file.getTasks().getPopulatedFields();
         Set<FieldType> populatedResourceFields = file.getResources().getPopulatedFields();
         Set<FieldType> populatedAssignmentFields = file.getResourceAssignments().getPopulatedFields();
+
+        Set<FieldType> allFields = file.getPopulatedFields();
     }
 
     private void fieldType()
@@ -219,7 +219,9 @@ public class FieldSamples {
         CustomField fieldConfiguration = container.get(TaskField.TEXT1);
 
         // Retrieve the field type for a task field with a particular alias
-        FieldType fieldType = container.getFieldTypeByAlias(FieldTypeClass.TASK, "Number of Widgets Required");
+        FieldType fieldType = container.getFieldTypeByAlias(
+           FieldTypeClass.TASK,
+           "Number of Widgets Required");
 
         // Use the type we've retrieved to retrieve the field value from a task
         Task task = file.getTaskByID(Integer.valueOf(1));
@@ -230,4 +232,16 @@ public class FieldSamples {
         value = task.getFieldByAlias("Number of Widgets Required");
     }
 
+    public void userDefinedFields() throws Exception
+    {
+        ProjectFile project = new UniversalProjectReader().read("example.mpp");
+
+        for (UserDefinedField field : project.getUserDefinedFields())
+        {
+            System.out.println("name(): " + field.name());
+            System.out.println("getName(): " + field.getName());
+            System.out.println("getFieldTypeClass(): " + field.getFieldTypeClass());
+            System.out.println("getDataType():" + field.getDataType());
+        }
+    }
 }

@@ -1,4 +1,4 @@
-package org.mpxj.calendars;
+package org.mpxj.howto.use.calendars;
 
 import net.sf.mpxj.*;
 
@@ -8,6 +8,7 @@ import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class CalendarSamples {
 
@@ -25,9 +26,11 @@ public class CalendarSamples {
       // Create a default calendar
       //
       System.out.println("Create a default calendar");
+
       ProjectFile file = new ProjectFile();
       ProjectCalendar calendar = file.addDefaultBaseCalendar();
       System.out.println("The calendar name is " + calendar.getName());
+
       System.out.println();
       simpleCalendarDump(calendar);
 
@@ -35,16 +38,20 @@ public class CalendarSamples {
       // Make Saturday a working day and Monday a non-working day
       //
       System.out.println("Make Saturday a working day and Monday a non-working day");
+
       calendar.setWorkingDay(DayOfWeek.SATURDAY, true);
       calendar.setWorkingDay(DayOfWeek.MONDAY, false);
+
       simpleCalendarDump(calendar);
 
       //
       // Show the "raw form" of the working hours for Tuesday
       //
       System.out.println("Show the \"raw form\" of the working hours for Tuesday");
+
       List<LocalTimeRange> hours = calendar.getCalendarHours(DayOfWeek.TUESDAY);
       hours.forEach(System.out::println);
+
       System.out.println();
 
       //
@@ -64,15 +71,18 @@ public class CalendarSamples {
       // Add some working hours to Saturday using constants supplied by MPXJ
       //
       System.out.println("Add some working hours to Saturday using constants supplied by MPXJ");
+
       hours = calendar.getCalendarHours(DayOfWeek.SATURDAY);
       hours.add(ProjectCalendarDays.DEFAULT_WORKING_MORNING);
       hours.add(ProjectCalendarDays.DEFAULT_WORKING_AFTERNOON);
+
       detailedCalendarDump(calendar);
 
       //
       // Create our own working hours for Saturday
       //
       System.out.println("Create our own working hours for Saturday");
+
       LocalTime startTime = LocalTime.of(9, 0);
       LocalTime finishTime = LocalTime.of(14, 30);
       hours = calendar.getCalendarHours(DayOfWeek.SATURDAY);
@@ -85,14 +95,17 @@ public class CalendarSamples {
       // Show how many working hours there are on Saturday
       //
       System.out.println("Show how many working hours there are on Saturday");
+
       Duration duration = calendar.getWork(DayOfWeek.SATURDAY, TimeUnit.HOURS);
       System.out.println(duration);
+
       System.out.println();
 
       //
       // Configure 24 hour working
       //
       System.out.println("Configure 24 hour working");
+
       startTime = LocalTime.MIDNIGHT;
       finishTime = LocalTime.MIDNIGHT;
       hours.clear();
@@ -101,12 +114,14 @@ public class CalendarSamples {
 
       duration = calendar.getWork(DayOfWeek.SATURDAY, TimeUnit.HOURS);
       System.out.println(duration);
+
       System.out.println();
 
       //
       // Add an exception for a single day
       //
       System.out.println("Add an exception for a single day");
+
       LocalDate exceptionDate = LocalDate.of(2022, 5, 10);
 
       boolean workingDate = calendar.isWorkingDate(exceptionDate);
@@ -123,9 +138,11 @@ public class CalendarSamples {
       // Make this a half-day
       //
       System.out.println("Make this a half-day");
+
       startTime = LocalTime.of(8, 0);
       finishTime = LocalTime.of(12, 0);
       exception.add(new LocalTimeRange(startTime, finishTime));
+
       workingDate = calendar.isWorkingDate(exceptionDate);
       System.out.println(exceptionDate + " is a "
          + (workingDate ? "working" : "non-working") + " day");
@@ -134,6 +151,7 @@ public class CalendarSamples {
          + calendar.getWork(DayOfWeek.TUESDAY, TimeUnit.HOURS) + " but on "
          + exceptionDate + " it is "
          + calendar.getWork(exceptionDate, TimeUnit.HOURS));
+
       System.out.println();
 
       //
@@ -156,6 +174,7 @@ public class CalendarSamples {
       // Three weeks of 16 hour weekdays, with 8 hour days at weekends
       //
       System.out.println("Represent a \"crunch\" period in October");
+
       LocalDate weekStart = LocalDate.of(2022, 10, 1);
       LocalDate weekEnd = LocalDate.of(2022, 10, 21);
       calendar = file.addDefaultBaseCalendar();
@@ -167,15 +186,15 @@ public class CalendarSamples {
       startTime = LocalTime.of(9, 0);
       finishTime = LocalTime.of(17, 0);
       LocalTimeRange weekendHours = new LocalTimeRange(startTime, finishTime);
-      Arrays.asList(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY)
-         .stream().forEach(d -> week.addCalendarHours(d).add(weekendHours));
+      Stream.of(DayOfWeek.SATURDAY, DayOfWeek.SUNDAY)
+         .forEach(d -> week.addCalendarHours(d).add(weekendHours));
 
       startTime = LocalTime.of(5, 0);
       finishTime = LocalTime.of(21, 0);
       LocalTimeRange weekdayHours = new LocalTimeRange(startTime, finishTime);
-      Arrays.asList(DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY,
+      Stream.of(DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY,
             DayOfWeek.THURSDAY, DayOfWeek.FRIDAY)
-         .stream().forEach(d -> week.addCalendarHours(d).add(weekdayHours));
+         .forEach(d -> week.addCalendarHours(d).add(weekdayHours));
 
       detailedCalendarDump(week);
 
@@ -227,7 +246,6 @@ public class CalendarSamples {
       for (LocalDate date = startDate; date.isBefore(endDate); date = date.plusDays(1)) {
          System.out.println(date + "\t" + calendar.getWork(date, TimeUnit.HOURS));
       }
-
       System.out.println();
    }
 
@@ -240,12 +258,15 @@ public class CalendarSamples {
 
       ProjectCalendar childCalendar = file.addDefaultDerivedCalendar();
       childCalendar.setParent(parentCalendar);
+      System.out.println(christmasDay + " is a working day: "
+         + childCalendar.isWorkingDate(christmasDay));
 
-      System.out.println(christmasDay + " is a working day: " + childCalendar.isWorkingDate(christmasDay));
       System.out.println();
 
       parentCalendar.setCalendarDayType(DayOfWeek.TUESDAY, DayType.NON_WORKING);
-      System.out.println("Is " + DayOfWeek.TUESDAY + " a working day: " + childCalendar.isWorkingDay(DayOfWeek.TUESDAY));
+      System.out.println("Is " + DayOfWeek.TUESDAY + " a working day: "
+         + childCalendar.isWorkingDay(DayOfWeek.TUESDAY));
+
       System.out.println();
 
       simpleCalendarDump(parentCalendar);
@@ -254,7 +275,8 @@ public class CalendarSamples {
       childCalendar.setCalendarDayType(DayOfWeek.TUESDAY, DayType.WORKING);
       LocalTime startTime = LocalTime.of(9, 0);
       LocalTime finishTime = LocalTime.of(12, 30);
-      childCalendar.addCalendarHours(DayOfWeek.TUESDAY).add(new LocalTimeRange(startTime, finishTime));
+      childCalendar.addCalendarHours(DayOfWeek.TUESDAY)
+         .add(new LocalTimeRange(startTime, finishTime));
    }
 
    private void calendarUniqueID()
@@ -272,7 +294,9 @@ public class CalendarSamples {
       file.getCalendars().forEach(c -> System.out.println(c.getName()));
       System.out.println();
 
-      file.getCalendars().forEach(c -> System.out.println(c.getName() + " (Unique ID: " + c.getUniqueID() + ")"));
+      file.getCalendars().forEach(c -> System.out.println(c.getName()
+         + " (Unique ID: " + c.getUniqueID() + ")"));
+
       System.out.println();
 
       ProjectCalendar calendar = file.getCalendars().getByUniqueID(2);
@@ -284,7 +308,9 @@ public class CalendarSamples {
       ProjectFile file = new ProjectFile();
       ProjectCalendar calendar = file.addDefaultBaseCalendar();
       file.setDefaultCalendar(calendar);
-      System.out.println("The default calendar name is " + file.getDefaultCalendar().getName());
+      System.out.println("The default calendar name is "
+         + file.getDefaultCalendar().getName());
+
       System.out.println();
    }
 
