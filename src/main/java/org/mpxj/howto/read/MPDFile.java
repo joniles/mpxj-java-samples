@@ -3,7 +3,7 @@ package org.mpxj.howto.read;
 import net.sf.mpxj.ProjectFile;
 import net.sf.mpxj.reader.UniversalProjectReader;
 
-public class MPD
+public class MPDFile
 {
    public void read() throws Exception
    {

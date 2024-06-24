@@ -4,7 +4,7 @@ import net.sf.mpxj.mpd.MPDDatabaseReader;
 import java.sql.Connection;
 import java.util.Map;
 
-public class MPDUsingReader
+public class MPDDatabase
 {
    public void read(Connection connection) throws Exception
    {
