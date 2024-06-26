@@ -28,6 +28,6 @@ public class P6Sqlite
       //
       int selectedProjectID = 1;
       reader.setProjectID(selectedProjectID);
-      ProjectFile projectFile = reader.read("PPMDBSQLite.db");
+      ProjectFile projectFile = reader.read(file);
    }
 }
