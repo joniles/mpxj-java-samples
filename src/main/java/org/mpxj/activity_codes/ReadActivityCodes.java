@@ -1,6 +1,6 @@
 package org.mpxj.activity_codes;
 
-import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -90,16 +90,16 @@ public class ReadActivityCodes
          //
          // Display any activity code values for this task
          //
-         List<ActivityCodeValue> values = task.getActivityCodes();
+         Map<ActivityCode, ActivityCodeValue> values = task.getActivityCodeValues();
          if (values.isEmpty())
          {
             System.out.println("\t(no activity codes assigned)");
          }
          else
          {
-            for (ActivityCodeValue value : values)
+            for (Map.Entry<ActivityCode, ActivityCodeValue> entry : values.entrySet())
             {
-               System.out.println("\t" + value.getType().getName() + ":\t" + value.getName());
+               System.out.println("\t" + entry.getKey().getName() + ":\t" + entry.getValue().getName());
             }
          }
       }
