@@ -64,7 +64,7 @@ public class ReadActivityCodes
          //
          for (ActivityCodeValue value : code.getValues())
          {
-            String parent = value.getParent() == null ? null : "Parent: " + value.getParent().getUniqueID();
+            String parent = value.getParentValue() == null ? null : "Parent: " + value.getParentValue().getUniqueID();
             String description = value.getDescription() == null || value.getDescription().isEmpty() ? null : "Description: " + value.getDescription();
             String sequenceNumber = "Sequence: " + value.getSequenceNumber();
             String color = value.getColor() == null ? null : "Color: " + getColor(value);
