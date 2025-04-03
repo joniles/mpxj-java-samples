@@ -26,18 +26,15 @@ public class MicrosoftSchedulerSample
 
       Task task1 = file.addTask();
       task1.setName("Task 1");
-//      task1.setDuration(Duration.getInstance(3, TimeUnit.DAYS));
-//      task1.setRemainingDuration(Duration.getInstance(3, TimeUnit.DAYS));
+      task1.setDuration(Duration.getInstance(3, TimeUnit.DAYS));
 
       Task task2 = file.addTask();
       task2.setName("Task 2");
       task2.setDuration(Duration.getInstance(2, TimeUnit.DAYS));
-      task2.setRemainingDuration(Duration.getInstance(2, TimeUnit.DAYS));
 
       Task task3 = file.addTask();
       task3.setName("Task 3");
       task3.setDuration(Duration.getInstance(5, TimeUnit.DAYS));
-      task3.setRemainingDuration(Duration.getInstance(5, TimeUnit.DAYS));
 
       task3.addPredecessor(new Relation.Builder().predecessorTask(task1));
       task3.addPredecessor(new Relation.Builder().predecessorTask(task2));
@@ -45,17 +42,14 @@ public class MicrosoftSchedulerSample
       Task task4 = file.addTask();
       task4.setName("Task 4");
       task4.setDuration(Duration.getInstance(2, TimeUnit.DAYS));
-      task4.setRemainingDuration(Duration.getInstance(2, TimeUnit.DAYS));
 
       Task task5 = file.addTask();
       task5.setName("Task 5");
       task5.setDuration(Duration.getInstance(2, TimeUnit.DAYS));
-      task5.setRemainingDuration(Duration.getInstance(2, TimeUnit.DAYS));
 
       Task task6 = file.addTask();
       task6.setName("Task 6");
       task6.setDuration(Duration.getInstance(2, TimeUnit.DAYS));
-      task6.setRemainingDuration(Duration.getInstance(2, TimeUnit.DAYS));
 
       task6.addPredecessor(new Relation.Builder().predecessorTask(task4));
       task6.addPredecessor(new Relation.Builder().predecessorTask(task5).lag(Duration.getInstance(1, TimeUnit.DAYS)));
@@ -63,12 +57,11 @@ public class MicrosoftSchedulerSample
       Task milestone1 = file.addTask();
       milestone1.setName("Milestone 1");
       milestone1.setDuration(Duration.getInstance(0, TimeUnit.DAYS));
-      milestone1.setRemainingDuration(Duration.getInstance(0, TimeUnit.DAYS));
 
       milestone1.addPredecessor(new Relation.Builder().predecessorTask(task3));
       milestone1.addPredecessor(new Relation.Builder().predecessorTask(task6));
 
-      new MicrosoftScheduler().process(file, LocalDateTime.of(2025, 4, 11, 8, 0));
+      new MicrosoftScheduler().schedule(file, LocalDateTime.of(2025, 4, 11, 8, 0));
 
       System.out.println(writeTaskHeaders());
       file.getTasks().stream().forEach(t -> System.out.println(writeTaskData(t)));
