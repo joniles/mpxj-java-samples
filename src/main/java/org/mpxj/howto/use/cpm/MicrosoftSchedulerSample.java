@@ -14,10 +14,11 @@ public class MicrosoftSchedulerSample
 {
    public static void main(String[] argv) throws Exception
    {
-      new MicrosoftSchedulerSample().process("/Users/joniles/Downloads/test.xml");
+      MicrosoftSchedulerSample sample = new MicrosoftSchedulerSample();
+      sample.projectWithoutResources("/Users/joniles/Downloads/test.xml");
    }
 
-   public void process(String filename) throws Exception
+   public void projectWithoutResources(String filename) throws Exception
    {
       ProjectFile file = new ProjectFile();
 
