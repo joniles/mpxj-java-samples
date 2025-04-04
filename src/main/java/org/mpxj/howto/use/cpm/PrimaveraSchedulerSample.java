@@ -18,8 +18,8 @@ public class PrimaveraSchedulerSample
    {
       PrimaveraSchedulerSample sample = new PrimaveraSchedulerSample();
       //sample.projectWithoutResources("/Users/joniles/Downloads/project-without-resources.xml");
-      sample.projectWithProgress("/Users/joniles/Downloads/project-with-progress.xml");
-//      sample.projectWithResources("/Users/joniles/Downloads/project-with-resources.xml");
+      //sample.projectWithProgress("/Users/joniles/Downloads/project-with-progress.xml");
+      sample.projectWithResources("/Users/joniles/Downloads/project-with-resources.xml");
 //      sample.projectWithResourcesAndProgress("/Users/joniles/Downloads/project-with-resources-and-progress.xml");
    }
 
@@ -131,10 +131,12 @@ public class PrimaveraSchedulerSample
       summary1.setName("Summary 1");
 
       Task task1 = summary1.addTask();
+      task1.setActivityType(ActivityType.RESOURCE_DEPENDENT);
       task1.setName("Task 1");
       createResourceAssignment(task1, resource1, Duration.getInstance(32, TimeUnit.HOURS));
 
       Task task2 = summary1.addTask();
+      task2.setActivityType(ActivityType.RESOURCE_DEPENDENT);
       task2.setName("Task 2");
       createResourceAssignment(task2, resource2, Duration.getInstance(16, TimeUnit.HOURS));
 
