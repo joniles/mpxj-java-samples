@@ -2,7 +2,7 @@ package org.mpxj.howto.use.cpm;
 
 import net.sf.mpxj.*;
 import net.sf.mpxj.cpm.CpmException;
-import net.sf.mpxj.cpm.MicrosoftScheduler;
+import net.sf.mpxj.cpm.PrimaveraScheduler;
 import net.sf.mpxj.writer.FileFormat;
 import net.sf.mpxj.writer.UniversalProjectWriter;
 
@@ -12,15 +12,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MicrosoftSchedulerSample
+public class PrimaveraSchedulerSample
 {
    public static void main(String[] argv) throws Exception
    {
-      MicrosoftSchedulerSample sample = new MicrosoftSchedulerSample();
-      sample.projectWithoutResources("/Users/joniles/Downloads/project-without-resources.xml");
+      PrimaveraSchedulerSample sample = new PrimaveraSchedulerSample();
+      //sample.projectWithoutResources("/Users/joniles/Downloads/project-without-resources.xml");
       sample.projectWithProgress("/Users/joniles/Downloads/project-with-progress.xml");
-      sample.projectWithResources("/Users/joniles/Downloads/project-with-resources.xml");
-      sample.projectWithResourcesAndProgress("/Users/joniles/Downloads/project-with-resources-and-progress.xml");
+//      sample.projectWithResources("/Users/joniles/Downloads/project-with-resources.xml");
+//      sample.projectWithResourcesAndProgress("/Users/joniles/Downloads/project-with-resources-and-progress.xml");
    }
 
    public void projectWithoutResources(String filename) throws Exception
@@ -33,9 +33,9 @@ public class MicrosoftSchedulerSample
       Task summary1 = file.addTask();
       summary1.setName("Summary 1");
 
-      Task task1 = createTask(summary1, "Task 1", Duration.getInstance(4, TimeUnit.DAYS));
-      Task task2 = createTask(summary1, "Task 2", Duration.getInstance(2, TimeUnit.DAYS));
-      Task task3 = createTask(summary1, "Task 3", Duration.getInstance(5, TimeUnit.DAYS));
+      Task task1 = createTask(summary1, ActivityType.TASK_DEPENDENT, "Task 1", Duration.getInstance(4, TimeUnit.DAYS));
+      Task task2 = createTask(summary1, ActivityType.TASK_DEPENDENT,"Task 2", Duration.getInstance(2, TimeUnit.DAYS));
+      Task task3 = createTask(summary1, ActivityType.TASK_DEPENDENT,"Task 3", Duration.getInstance(5, TimeUnit.DAYS));
 
       task3.addPredecessor(new Relation.Builder().predecessorTask(task1));
       task3.addPredecessor(new Relation.Builder().predecessorTask(task2));
@@ -43,23 +43,23 @@ public class MicrosoftSchedulerSample
       Task summary2 = file.addTask();
       summary2.setName("Summary 2");
 
-      Task task4 = createTask(summary2, "Task 4", Duration.getInstance(2, TimeUnit.DAYS));
-      Task task5 = createTask(summary2, "Task 5", Duration.getInstance(2, TimeUnit.DAYS));
-      Task task6 = createTask(summary2, "Task 6", Duration.getInstance(2, TimeUnit.DAYS));
+      Task task4 = createTask(summary2, ActivityType.TASK_DEPENDENT, "Task 4", Duration.getInstance(2, TimeUnit.DAYS));
+      Task task5 = createTask(summary2, ActivityType.TASK_DEPENDENT,"Task 5", Duration.getInstance(2, TimeUnit.DAYS));
+      Task task6 = createTask(summary2, ActivityType.TASK_DEPENDENT,"Task 6", Duration.getInstance(2, TimeUnit.DAYS));
 
       task6.addPredecessor(new Relation.Builder().predecessorTask(task4));
       task6.addPredecessor(new Relation.Builder().predecessorTask(task5).lag(Duration.getInstance(1, TimeUnit.DAYS)));
 
-      Task milestone1 = createTask(file, "Milestone 1", Duration.getInstance(0, TimeUnit.DAYS));
+      Task milestone1 = createTask(file, ActivityType.FINISH_MILESTONE,"Milestone 1", Duration.getInstance(0, TimeUnit.DAYS));
 
       milestone1.addPredecessor(new Relation.Builder().predecessorTask(task3));
       milestone1.addPredecessor(new Relation.Builder().predecessorTask(task6));
 
-      new MicrosoftScheduler().schedule(file, LocalDateTime.of(2025, 4, 11, 8, 0));
+      new PrimaveraScheduler().schedule(file, LocalDateTime.of(2025, 4, 11, 8, 0));
 
       printTasks(file);
 
-      new UniversalProjectWriter(FileFormat.MSPDI).write(file, filename);
+      new UniversalProjectWriter(FileFormat.PMXML).write(file, filename);
    }
 
    public void projectWithProgress(String filename) throws Exception
@@ -72,9 +72,9 @@ public class MicrosoftSchedulerSample
       Task summary1 = file.addTask();
       summary1.setName("Summary 1");
 
-      Task task1 = createTask(summary1, "Task 1", Duration.getInstance(4, TimeUnit.DAYS));
-      Task task2 = createTask(summary1, "Task 2", Duration.getInstance(2, TimeUnit.DAYS));
-      Task task3 = createTask(summary1, "Task 3", Duration.getInstance(5, TimeUnit.DAYS));
+      Task task1 = createTask(summary1, ActivityType.TASK_DEPENDENT,"Task 1", Duration.getInstance(4, TimeUnit.DAYS));
+      Task task2 = createTask(summary1, ActivityType.TASK_DEPENDENT,"Task 2", Duration.getInstance(2, TimeUnit.DAYS));
+      Task task3 = createTask(summary1, ActivityType.TASK_DEPENDENT,"Task 3", Duration.getInstance(5, TimeUnit.DAYS));
 
       task3.addPredecessor(new Relation.Builder().predecessorTask(task1));
       task3.addPredecessor(new Relation.Builder().predecessorTask(task2));
@@ -82,26 +82,27 @@ public class MicrosoftSchedulerSample
       Task summary2 = file.addTask();
       summary2.setName("Summary 2");
 
-      Task task4 = createTask(summary2, "Task 4", Duration.getInstance(2, TimeUnit.DAYS));
-      Task task5 = createTask(summary2, "Task 5", Duration.getInstance(2, TimeUnit.DAYS));
-      Task task6 = createTask(summary2, "Task 6", Duration.getInstance(2, TimeUnit.DAYS));
+      Task task4 = createTask(summary2, ActivityType.TASK_DEPENDENT,"Task 4", Duration.getInstance(2, TimeUnit.DAYS));
+      Task task5 = createTask(summary2, ActivityType.TASK_DEPENDENT,"Task 5", Duration.getInstance(2, TimeUnit.DAYS));
+      Task task6 = createTask(summary2, ActivityType.TASK_DEPENDENT,"Task 6", Duration.getInstance(2, TimeUnit.DAYS));
 
       task6.addPredecessor(new Relation.Builder().predecessorTask(task4));
       task6.addPredecessor(new Relation.Builder().predecessorTask(task5).lag(Duration.getInstance(1, TimeUnit.DAYS)));
 
-      Task milestone1 = createTask(file, "Milestone 1", Duration.getInstance(0, TimeUnit.DAYS));
+      Task milestone1 = createTask(file, ActivityType.FINISH_MILESTONE,"Milestone 1", Duration.getInstance(0, TimeUnit.DAYS));
 
       milestone1.addPredecessor(new Relation.Builder().predecessorTask(task3));
       milestone1.addPredecessor(new Relation.Builder().predecessorTask(task6));
 
       progressTask(task1, LocalDateTime.of(2025, 4, 11, 8, 0), 25.0);
       progressTask(task2, LocalDateTime.of(2025, 4, 11, 8, 0), 50.0);
+      file.getProjectProperties().setStatusDate(LocalDateTime.of(2025, 4, 11, 17, 0));
 
-      new MicrosoftScheduler().schedule(file, LocalDateTime.of(2025, 4, 11, 8, 0));
+      new PrimaveraScheduler().schedule(file, LocalDateTime.of(2025, 4, 11, 8, 0));
 
       printTasks(file);
 
-      new UniversalProjectWriter(FileFormat.MSPDI).write(file, filename);
+      new UniversalProjectWriter(FileFormat.PMXML).write(file, filename);
    }
 
    public void projectWithResources(String filename) throws Exception
@@ -137,7 +138,7 @@ public class MicrosoftSchedulerSample
       task2.setName("Task 2");
       createResourceAssignment(task2, resource2, Duration.getInstance(16, TimeUnit.HOURS));
 
-      Task task3 = createTask(summary1, "Task 3", Duration.getInstance(5, TimeUnit.DAYS));
+      Task task3 = createTask(summary1, ActivityType.TASK_DEPENDENT,"Task 3", Duration.getInstance(5, TimeUnit.DAYS));
 
       task3.addPredecessor(new Relation.Builder().predecessorTask(task1));
       task3.addPredecessor(new Relation.Builder().predecessorTask(task2));
@@ -145,23 +146,23 @@ public class MicrosoftSchedulerSample
       Task summary2 = file.addTask();
       summary2.setName("Summary 2");
 
-      Task task4 = createTask(summary2, "Task 4", Duration.getInstance(2, TimeUnit.DAYS));
-      Task task5 = createTask(summary2, "Task 5", Duration.getInstance(2, TimeUnit.DAYS));
-      Task task6 = createTask(summary2, "Task 6", Duration.getInstance(2, TimeUnit.DAYS));
+      Task task4 = createTask(summary2, ActivityType.TASK_DEPENDENT,"Task 4", Duration.getInstance(2, TimeUnit.DAYS));
+      Task task5 = createTask(summary2, ActivityType.TASK_DEPENDENT,"Task 5", Duration.getInstance(2, TimeUnit.DAYS));
+      Task task6 = createTask(summary2, ActivityType.TASK_DEPENDENT,"Task 6", Duration.getInstance(2, TimeUnit.DAYS));
 
       task6.addPredecessor(new Relation.Builder().predecessorTask(task4));
       task6.addPredecessor(new Relation.Builder().predecessorTask(task5).lag(Duration.getInstance(1, TimeUnit.DAYS)));
 
-      Task milestone1 = createTask(file, "Milestone 1", Duration.getInstance(0, TimeUnit.DAYS));
+      Task milestone1 = createTask(file, ActivityType.FINISH_MILESTONE,"Milestone 1", Duration.getInstance(0, TimeUnit.DAYS));
 
       milestone1.addPredecessor(new Relation.Builder().predecessorTask(task3));
       milestone1.addPredecessor(new Relation.Builder().predecessorTask(task6));
 
-      new MicrosoftScheduler().schedule(file, LocalDateTime.of(2025, 4, 11, 8, 0));
+      new PrimaveraScheduler().schedule(file, LocalDateTime.of(2025, 4, 11, 8, 0));
 
       printTasks(file);
 
-      new UniversalProjectWriter(FileFormat.MSPDI).write(file, filename);
+      new UniversalProjectWriter(FileFormat.PMXML).write(file, filename);
    }
 
    public void projectWithResourcesAndProgress(String filename) throws Exception
@@ -190,14 +191,17 @@ public class MicrosoftSchedulerSample
       summary1.setName("Summary 1");
 
       Task task1 = summary1.addTask();
+      task1.setActivityType(ActivityType.RESOURCE_DEPENDENT);
       task1.setName("Task 1");
+
       ResourceAssignment assignment1 = createResourceAssignment(task1, resource1, Duration.getInstance(32, TimeUnit.HOURS));
 
       Task task2 = summary1.addTask();
+      task2.setActivityType(ActivityType.RESOURCE_DEPENDENT);
       task2.setName("Task 2");
       ResourceAssignment assignment2 = createResourceAssignment(task2, resource2, Duration.getInstance(16, TimeUnit.HOURS));
 
-      Task task3 = createTask(summary1, "Task 3", Duration.getInstance(5, TimeUnit.DAYS));
+      Task task3 = createTask(summary1, ActivityType.TASK_DEPENDENT,"Task 3", Duration.getInstance(5, TimeUnit.DAYS));
 
       task3.addPredecessor(new Relation.Builder().predecessorTask(task1));
       task3.addPredecessor(new Relation.Builder().predecessorTask(task2));
@@ -205,14 +209,14 @@ public class MicrosoftSchedulerSample
       Task summary2 = file.addTask();
       summary2.setName("Summary 2");
 
-      Task task4 = createTask(summary2, "Task 4", Duration.getInstance(2, TimeUnit.DAYS));
-      Task task5 = createTask(summary2, "Task 5", Duration.getInstance(2, TimeUnit.DAYS));
-      Task task6 = createTask(summary2, "Task 6", Duration.getInstance(2, TimeUnit.DAYS));
+      Task task4 = createTask(summary2, ActivityType.TASK_DEPENDENT,"Task 4", Duration.getInstance(2, TimeUnit.DAYS));
+      Task task5 = createTask(summary2, ActivityType.TASK_DEPENDENT,"Task 5", Duration.getInstance(2, TimeUnit.DAYS));
+      Task task6 = createTask(summary2, ActivityType.TASK_DEPENDENT,"Task 6", Duration.getInstance(2, TimeUnit.DAYS));
 
       task6.addPredecessor(new Relation.Builder().predecessorTask(task4));
       task6.addPredecessor(new Relation.Builder().predecessorTask(task5).lag(Duration.getInstance(1, TimeUnit.DAYS)));
 
-      Task milestone1 = createTask(file, "Milestone 1", Duration.getInstance(0, TimeUnit.DAYS));
+      Task milestone1 = createTask(file, ActivityType.FINISH_MILESTONE,"Milestone 1", Duration.getInstance(0, TimeUnit.DAYS));
 
       milestone1.addPredecessor(new Relation.Builder().predecessorTask(task3));
       milestone1.addPredecessor(new Relation.Builder().predecessorTask(task6));
@@ -223,16 +227,17 @@ public class MicrosoftSchedulerSample
       task2.setActualStart(LocalDateTime.of(2025, 4, 11, 8, 0));
       progressAssignment(assignment2, 50.0);
 
-      new MicrosoftScheduler().schedule(file, LocalDateTime.of(2025, 4, 11, 8, 0));
+      new PrimaveraScheduler().schedule(file, LocalDateTime.of(2025, 4, 11, 8, 0));
 
       printTasks(file);
 
-      new UniversalProjectWriter(FileFormat.MSPDI).write(file, filename);
+      new UniversalProjectWriter(FileFormat.PMXML).write(file, filename);
    }
 
-   private Task createTask(ChildTaskContainer parent, String name, Duration duration)
+   private Task createTask(ChildTaskContainer parent, ActivityType type, String name, Duration duration)
    {
       Task task = parent.addTask();
+      task.setActivityType(type);
       task.setName(name);
       task.setDuration(duration);
       task.setActualDuration(Duration.getInstance(0, duration.getUnits()));
