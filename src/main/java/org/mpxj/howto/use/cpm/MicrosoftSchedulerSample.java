@@ -26,23 +26,23 @@ public class MicrosoftSchedulerSample
       MicrosoftSchedulerSample sample = new MicrosoftSchedulerSample();
       File directory = new File(argv[0]);
 
-      System.out.println("Project without resources");
-      sample.projectWithoutResources(new File(directory, "project-without-resources.xml"));
+      System.out.println("Planned Project, Duration Driven");
+      sample.plannedProjectDurationDriven(new File(directory, "planned-project-duration-driven.xml"));
       System.out.println();
 
-      System.out.println("Project with progress");
-      sample.projectWithProgress(new File(directory, "project-with-progress.xml"));
+      System.out.println("Progressed Project, Duration Driven");
+      sample.progressedProjectDurationDriven(new File(directory, "progressed-project-duration-driven.xml"));
       System.out.println();
 
-      System.out.println("Project with resources");
-      sample.projectWithResources(new File(directory, "project-with-resources.xml"));
+      System.out.println("Planned Project, Work Driven");
+      sample.plannedProjectWorkDriven(new File(directory, "planned-project-work-driven.xml"));
       System.out.println();
 
-      System.out.println("Project with resources and progress");
-      sample.projectWithResourcesAndProgress(new File(directory, "project-with-resources-and-progress.xml"));
+      System.out.println("Progressed Project, Work Driven");
+      sample.progressedProjectWorkDriven(new File(directory, "progressed-project-work-driven.xml"));
    }
 
-   public void projectWithoutResources(File outputFile) throws Exception
+   public void plannedProjectDurationDriven(File outputFile) throws Exception
    {
       ProjectFile file = new ProjectFile();
 
@@ -81,7 +81,7 @@ public class MicrosoftSchedulerSample
       new UniversalProjectWriter(FileFormat.MSPDI).write(file, outputFile);
    }
 
-   public void projectWithProgress(File outputFile) throws Exception
+   public void progressedProjectDurationDriven(File outputFile) throws Exception
    {
       ProjectFile file = new ProjectFile();
 
@@ -123,7 +123,7 @@ public class MicrosoftSchedulerSample
       new UniversalProjectWriter(FileFormat.MSPDI).write(file, outputFile);
    }
 
-   public void projectWithResources(File outputFile) throws Exception
+   public void plannedProjectWorkDriven(File outputFile) throws Exception
    {
       ProjectFile file = new ProjectFile();
 
@@ -183,7 +183,7 @@ public class MicrosoftSchedulerSample
       new UniversalProjectWriter(FileFormat.MSPDI).write(file, outputFile);
    }
 
-   public void projectWithResourcesAndProgress(File outputFile) throws Exception
+   public void progressedProjectWorkDriven(File outputFile) throws Exception
    {
       ProjectFile file = new ProjectFile();
 
