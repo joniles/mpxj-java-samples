@@ -2,6 +2,7 @@ package org.mpxj.howto.use.cpm;
 
 import net.sf.mpxj.*;
 import net.sf.mpxj.cpm.MicrosoftScheduler;
+import net.sf.mpxj.reader.UniversalProjectReader;
 import net.sf.mpxj.writer.FileFormat;
 import net.sf.mpxj.writer.UniversalProjectWriter;
 
@@ -39,7 +40,11 @@ public class MicrosoftSchedulerSample
       System.out.println();
 
       System.out.println("Progressed Project, Resource Dependent");
-      sample.ResourceDependent(new File(directory, "progressed-project-resource-dependent.xml"));
+      sample.progressedProjectResourceDependent(new File(directory, "progressed-project-resource-dependent.xml"));
+      System.out.println();
+
+      System.out.println("Update Existing Project");
+      sample.updateExistingProject(new File(directory, "updated-project.xml"));
    }
 
    public void plannedProjectTaskDependent(File outputFile) throws Exception
@@ -183,7 +188,7 @@ public class MicrosoftSchedulerSample
       new UniversalProjectWriter(FileFormat.MSPDI).write(file, outputFile);
    }
 
-   public void ResourceDependent(File outputFile) throws Exception
+   public void progressedProjectResourceDependent(File outputFile) throws Exception
    {
       ProjectFile file = new ProjectFile();
 
@@ -244,6 +249,21 @@ public class MicrosoftSchedulerSample
 
       new MicrosoftScheduler().schedule(file, LocalDateTime.of(2025, 4, 11, 8, 0));
 
+      printTasks(file);
+
+      new UniversalProjectWriter(FileFormat.MSPDI).write(file, outputFile);
+   }
+
+   private void updateExistingProject(File outputFile) throws Exception
+   {
+      ProjectFile file = new UniversalProjectReader().read(getClass().getClassLoader().getResourceAsStream("org/mpxj/sample1.mpp"));
+      printTasks(file);
+      System.out.println();
+
+      Task task = file.getTaskByID(2);
+      task.setDuration(Duration.getInstance(5, TimeUnit.DAYS));
+
+      new MicrosoftScheduler().schedule(file, file.getProjectProperties().getStartDate());
       printTasks(file);
 
       new UniversalProjectWriter(FileFormat.MSPDI).write(file, outputFile);

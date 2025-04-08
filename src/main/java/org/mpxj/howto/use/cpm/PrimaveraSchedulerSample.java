@@ -243,11 +243,9 @@ public class PrimaveraSchedulerSample
       milestone1.addPredecessor(new Relation.Builder().predecessorTask(task6));
 
       task1.setActualStart(LocalDateTime.of(2025, 4, 11, 8, 0));
-      assignment1.setActualStart(task1.getActualStart()); // TODO change condition in PM project writer?
       progressAssignment(assignment1, 25.0);
 
       task2.setActualStart(LocalDateTime.of(2025, 4, 11, 8, 0));
-
       progressAssignment(assignment2, 50.0);
 
       file.getProjectProperties().setStatusDate(LocalDateTime.of(2025, 4, 11, 17, 0));
@@ -270,9 +268,9 @@ public class PrimaveraSchedulerSample
       return task;
    }
 
-   private ResourceAssignment createResourceAssignment(Task task, Resource resource, Duration work)
+   private ResourceAssignment createResourceAssignment(Task activity, Resource resource, Duration work)
    {
-      ResourceAssignment assignment = task.addResourceAssignment(resource);
+      ResourceAssignment assignment = activity.addResourceAssignment(resource);
       assignment.setWork(work);
       assignment.setActualWork(Duration.getInstance(0, work.getUnits()));
       assignment.setRemainingWork(work);
