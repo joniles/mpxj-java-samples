@@ -1,13 +1,14 @@
 package org.mpxj.howto.use.cpm;
 
 import net.sf.mpxj.*;
-import net.sf.mpxj.cpm.CpmException;
 import net.sf.mpxj.cpm.PrimaveraScheduler;
 import net.sf.mpxj.writer.FileFormat;
 import net.sf.mpxj.writer.UniversalProjectWriter;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,14 +17,32 @@ public class PrimaveraSchedulerSample
 {
    public static void main(String[] argv) throws Exception
    {
+      if (argv.length != 1)
+      {
+         System.out.println("Usage: PrimaveraSchedulerSample <target directory>");
+         return;
+      }
+
       PrimaveraSchedulerSample sample = new PrimaveraSchedulerSample();
-      //sample.projectWithoutResources("/Users/joniles/Downloads/project-without-resources.xml");
-      //sample.projectWithProgress("/Users/joniles/Downloads/project-with-progress.xml");
-      sample.projectWithResources("/Users/joniles/Downloads/project-with-resources.xml");
-//      sample.projectWithResourcesAndProgress("/Users/joniles/Downloads/project-with-resources-and-progress.xml");
+      File directory = new File(argv[0]);
+
+      System.out.println("Project without resources");
+      sample.projectWithoutResources(new File(directory, "project-without-resources.xml"));
+      System.out.println();
+
+      System.out.println("Project with progress");
+      sample.projectWithProgress(new File(directory, "project-with-progress.xml"));
+      System.out.println();
+
+      System.out.println("Project with resources");
+      sample.projectWithResources(new File(directory, "project-with-resources.xml"));
+      System.out.println();
+
+      System.out.println("Project with resources and progress");
+      sample.projectWithResourcesAndProgress(new File(directory, "project-with-resources-and-progress.xml"));
    }
 
-   public void projectWithoutResources(String filename) throws Exception
+   public void projectWithoutResources(File outputFile) throws Exception
    {
       ProjectFile file = new ProjectFile();
 
@@ -59,10 +78,10 @@ public class PrimaveraSchedulerSample
 
       printTasks(file);
 
-      new UniversalProjectWriter(FileFormat.PMXML).write(file, filename);
+      new UniversalProjectWriter(FileFormat.PMXML).write(file, outputFile);
    }
 
-   public void projectWithProgress(String filename) throws Exception
+   public void projectWithProgress(File outputFile) throws Exception
    {
       ProjectFile file = new ProjectFile();
 
@@ -102,10 +121,10 @@ public class PrimaveraSchedulerSample
 
       printTasks(file);
 
-      new UniversalProjectWriter(FileFormat.PMXML).write(file, filename);
+      new UniversalProjectWriter(FileFormat.PMXML).write(file, outputFile);
    }
 
-   public void projectWithResources(String filename) throws Exception
+   public void projectWithResources(File outputFile) throws Exception
    {
       ProjectFile file = new ProjectFile();
 
@@ -164,10 +183,10 @@ public class PrimaveraSchedulerSample
 
       printTasks(file);
 
-      new UniversalProjectWriter(FileFormat.PMXML).write(file, filename);
+      new UniversalProjectWriter(FileFormat.PMXML).write(file, outputFile);
    }
 
-   public void projectWithResourcesAndProgress(String filename) throws Exception
+   public void projectWithResourcesAndProgress(File outputFile) throws Exception
    {
       ProjectFile file = new ProjectFile();
 
@@ -224,16 +243,20 @@ public class PrimaveraSchedulerSample
       milestone1.addPredecessor(new Relation.Builder().predecessorTask(task6));
 
       task1.setActualStart(LocalDateTime.of(2025, 4, 11, 8, 0));
+      assignment1.setActualStart(task1.getActualStart()); // TODO change condition in PM project writer?
       progressAssignment(assignment1, 25.0);
 
       task2.setActualStart(LocalDateTime.of(2025, 4, 11, 8, 0));
+
       progressAssignment(assignment2, 50.0);
+
+      file.getProjectProperties().setStatusDate(LocalDateTime.of(2025, 4, 11, 17, 0));
 
       new PrimaveraScheduler().schedule(file, LocalDateTime.of(2025, 4, 11, 8, 0));
 
       printTasks(file);
 
-      new UniversalProjectWriter(FileFormat.PMXML).write(file, filename);
+      new UniversalProjectWriter(FileFormat.PMXML).write(file, outputFile);
    }
 
    private Task createTask(ChildTaskContainer parent, ActivityType type, String name, Duration duration)
@@ -256,7 +279,7 @@ public class PrimaveraSchedulerSample
       return assignment;
    }
 
-   private void progressTask(Task task, LocalDateTime actualStart, double percentComplete) throws CpmException
+   private void progressTask(Task task, LocalDateTime actualStart, double percentComplete)
    {
       double durationValue = task.getDuration().getDuration();
       TimeUnit durationUnits = task.getDuration().getUnits();
@@ -266,7 +289,7 @@ public class PrimaveraSchedulerSample
       task.setRemainingDuration(Duration.getInstance(((100.0 - percentComplete) * durationValue) / 100.0, durationUnits));
    }
 
-   public static void progressAssignment(ResourceAssignment assignment, double percentComplete) throws CpmException
+   private void progressAssignment(ResourceAssignment assignment, double percentComplete)
    {
       double workValue = assignment.getWork().getDuration();
       TimeUnit workUnits = assignment.getWork().getUnits();
@@ -288,7 +311,12 @@ public class PrimaveraSchedulerSample
 
    private String writeTaskData(Task task)
    {
-      return TASK_COLUMNS.stream().map(c -> String.valueOf(task.get(c))).collect(Collectors.joining("\t"));
+      return TASK_COLUMNS.stream().map(c -> writeValue(task.get(c))).collect(Collectors.joining("\t"));
+   }
+
+   private String writeValue(Object value)
+   {
+      return value instanceof LocalDateTime ? DATE_TIME_FORMAT.format((LocalDateTime)value) : String.valueOf(value);
    }
 
    private static final List<TaskField> TASK_COLUMNS = Arrays.asList(
@@ -304,4 +332,6 @@ public class PrimaveraSchedulerSample
       TaskField.LATE_FINISH,
       TaskField.TOTAL_SLACK,
       TaskField.CRITICAL);
+
+   private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("dd-MMM-yy HH:mm");
 }
