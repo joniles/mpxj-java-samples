@@ -26,23 +26,23 @@ public class PrimaveraSchedulerSample
       PrimaveraSchedulerSample sample = new PrimaveraSchedulerSample();
       File directory = new File(argv[0]);
 
-      System.out.println("Project without resources");
-      sample.projectWithoutResources(new File(directory, "project-without-resources.xml"));
+      System.out.println("Planned Project, Task Dependent");
+      sample.plannedProjectTaskDependent(new File(directory, "planned-project-task-dependent.xml"));
       System.out.println();
 
-      System.out.println("Project with progress");
-      sample.projectWithProgress(new File(directory, "project-with-progress.xml"));
+      System.out.println("Progressed Project, Task Dependent");
+      sample.progressedProjectTaskDependent(new File(directory, "progressed-project-task-dependent.xml"));
       System.out.println();
 
-      System.out.println("Project with resources");
-      sample.projectWithResources(new File(directory, "project-with-resources.xml"));
+      System.out.println("Planned Project, Resource Dependent");
+      sample.plannedProjectResourceDependent(new File(directory, "planned-project-resource-dependent.xml"));
       System.out.println();
 
-      System.out.println("Project with resources and progress");
-      sample.projectWithResourcesAndProgress(new File(directory, "project-with-resources-and-progress.xml"));
+      System.out.println("Progressed Project, Resource Dependent");
+      sample.progressedProjectResourceDependent(new File(directory, "progressed-project-resource-dependent.xml"));
    }
 
-   public void projectWithoutResources(File outputFile) throws Exception
+   public void plannedProjectTaskDependent(File outputFile) throws Exception
    {
       ProjectFile file = new ProjectFile();
 
@@ -50,26 +50,26 @@ public class PrimaveraSchedulerSample
       file.setDefaultCalendar(calendar);
 
       Task summary1 = file.addTask();
-      summary1.setName("Summary 1");
+      summary1.setName("WBS 1");
 
-      Task task1 = createTask(summary1, ActivityType.TASK_DEPENDENT, "Task 1", Duration.getInstance(4, TimeUnit.DAYS));
-      Task task2 = createTask(summary1, ActivityType.TASK_DEPENDENT,"Task 2", Duration.getInstance(2, TimeUnit.DAYS));
-      Task task3 = createTask(summary1, ActivityType.TASK_DEPENDENT,"Task 3", Duration.getInstance(5, TimeUnit.DAYS));
+      Task task1 = createActivity(summary1, ActivityType.TASK_DEPENDENT, "Activity 1", Duration.getInstance(4, TimeUnit.DAYS));
+      Task task2 = createActivity(summary1, ActivityType.TASK_DEPENDENT,"Activity 2", Duration.getInstance(2, TimeUnit.DAYS));
+      Task task3 = createActivity(summary1, ActivityType.TASK_DEPENDENT,"Activity 3", Duration.getInstance(5, TimeUnit.DAYS));
 
       task3.addPredecessor(new Relation.Builder().predecessorTask(task1));
       task3.addPredecessor(new Relation.Builder().predecessorTask(task2));
 
       Task summary2 = file.addTask();
-      summary2.setName("Summary 2");
+      summary2.setName("WBS 2");
 
-      Task task4 = createTask(summary2, ActivityType.TASK_DEPENDENT, "Task 4", Duration.getInstance(2, TimeUnit.DAYS));
-      Task task5 = createTask(summary2, ActivityType.TASK_DEPENDENT,"Task 5", Duration.getInstance(2, TimeUnit.DAYS));
-      Task task6 = createTask(summary2, ActivityType.TASK_DEPENDENT,"Task 6", Duration.getInstance(2, TimeUnit.DAYS));
+      Task task4 = createActivity(summary2, ActivityType.TASK_DEPENDENT, "Activity 4", Duration.getInstance(2, TimeUnit.DAYS));
+      Task task5 = createActivity(summary2, ActivityType.TASK_DEPENDENT,"Activity 5", Duration.getInstance(2, TimeUnit.DAYS));
+      Task task6 = createActivity(summary2, ActivityType.TASK_DEPENDENT,"Activity 6", Duration.getInstance(2, TimeUnit.DAYS));
 
       task6.addPredecessor(new Relation.Builder().predecessorTask(task4));
       task6.addPredecessor(new Relation.Builder().predecessorTask(task5).lag(Duration.getInstance(1, TimeUnit.DAYS)));
 
-      Task milestone1 = createTask(file, ActivityType.FINISH_MILESTONE,"Milestone 1", Duration.getInstance(0, TimeUnit.DAYS));
+      Task milestone1 = createActivity(file, ActivityType.FINISH_MILESTONE,"Milestone 1", Duration.getInstance(0, TimeUnit.DAYS));
 
       milestone1.addPredecessor(new Relation.Builder().predecessorTask(task3));
       milestone1.addPredecessor(new Relation.Builder().predecessorTask(task6));
@@ -81,7 +81,7 @@ public class PrimaveraSchedulerSample
       new UniversalProjectWriter(FileFormat.PMXML).write(file, outputFile);
    }
 
-   public void projectWithProgress(File outputFile) throws Exception
+   public void progressedProjectTaskDependent(File outputFile) throws Exception
    {
       ProjectFile file = new ProjectFile();
 
@@ -89,32 +89,32 @@ public class PrimaveraSchedulerSample
       file.setDefaultCalendar(calendar);
 
       Task summary1 = file.addTask();
-      summary1.setName("Summary 1");
+      summary1.setName("WBS 1");
 
-      Task task1 = createTask(summary1, ActivityType.TASK_DEPENDENT,"Task 1", Duration.getInstance(4, TimeUnit.DAYS));
-      Task task2 = createTask(summary1, ActivityType.TASK_DEPENDENT,"Task 2", Duration.getInstance(2, TimeUnit.DAYS));
-      Task task3 = createTask(summary1, ActivityType.TASK_DEPENDENT,"Task 3", Duration.getInstance(5, TimeUnit.DAYS));
+      Task task1 = createActivity(summary1, ActivityType.TASK_DEPENDENT,"Activity 1", Duration.getInstance(4, TimeUnit.DAYS));
+      Task task2 = createActivity(summary1, ActivityType.TASK_DEPENDENT,"Activity 2", Duration.getInstance(2, TimeUnit.DAYS));
+      Task task3 = createActivity(summary1, ActivityType.TASK_DEPENDENT,"Activity 3", Duration.getInstance(5, TimeUnit.DAYS));
 
       task3.addPredecessor(new Relation.Builder().predecessorTask(task1));
       task3.addPredecessor(new Relation.Builder().predecessorTask(task2));
 
       Task summary2 = file.addTask();
-      summary2.setName("Summary 2");
+      summary2.setName("WBS 2");
 
-      Task task4 = createTask(summary2, ActivityType.TASK_DEPENDENT,"Task 4", Duration.getInstance(2, TimeUnit.DAYS));
-      Task task5 = createTask(summary2, ActivityType.TASK_DEPENDENT,"Task 5", Duration.getInstance(2, TimeUnit.DAYS));
-      Task task6 = createTask(summary2, ActivityType.TASK_DEPENDENT,"Task 6", Duration.getInstance(2, TimeUnit.DAYS));
+      Task task4 = createActivity(summary2, ActivityType.TASK_DEPENDENT,"Activity 4", Duration.getInstance(2, TimeUnit.DAYS));
+      Task task5 = createActivity(summary2, ActivityType.TASK_DEPENDENT,"Activity 5", Duration.getInstance(2, TimeUnit.DAYS));
+      Task task6 = createActivity(summary2, ActivityType.TASK_DEPENDENT,"Activity 6", Duration.getInstance(2, TimeUnit.DAYS));
 
       task6.addPredecessor(new Relation.Builder().predecessorTask(task4));
       task6.addPredecessor(new Relation.Builder().predecessorTask(task5).lag(Duration.getInstance(1, TimeUnit.DAYS)));
 
-      Task milestone1 = createTask(file, ActivityType.FINISH_MILESTONE,"Milestone 1", Duration.getInstance(0, TimeUnit.DAYS));
+      Task milestone1 = createActivity(file, ActivityType.FINISH_MILESTONE,"Milestone 1", Duration.getInstance(0, TimeUnit.DAYS));
 
       milestone1.addPredecessor(new Relation.Builder().predecessorTask(task3));
       milestone1.addPredecessor(new Relation.Builder().predecessorTask(task6));
 
-      progressTask(task1, LocalDateTime.of(2025, 4, 11, 8, 0), 25.0);
-      progressTask(task2, LocalDateTime.of(2025, 4, 11, 8, 0), 50.0);
+      progressActivity(task1, LocalDateTime.of(2025, 4, 11, 8, 0), 25.0);
+      progressActivity(task2, LocalDateTime.of(2025, 4, 11, 8, 0), 50.0);
       file.getProjectProperties().setStatusDate(LocalDateTime.of(2025, 4, 11, 17, 0));
 
       new PrimaveraScheduler().schedule(file, LocalDateTime.of(2025, 4, 11, 8, 0));
@@ -124,7 +124,7 @@ public class PrimaveraSchedulerSample
       new UniversalProjectWriter(FileFormat.PMXML).write(file, outputFile);
    }
 
-   public void projectWithResources(File outputFile) throws Exception
+   public void plannedProjectResourceDependent(File outputFile) throws Exception
    {
       ProjectFile file = new ProjectFile();
 
@@ -147,34 +147,34 @@ public class PrimaveraSchedulerSample
       calendar2.setName("Resource 2");
 
       Task summary1 = file.addTask();
-      summary1.setName("Summary 1");
+      summary1.setName("WBS 1");
 
       Task task1 = summary1.addTask();
       task1.setActivityType(ActivityType.RESOURCE_DEPENDENT);
-      task1.setName("Task 1");
+      task1.setName("Activity 1");
       createResourceAssignment(task1, resource1, Duration.getInstance(32, TimeUnit.HOURS));
 
       Task task2 = summary1.addTask();
       task2.setActivityType(ActivityType.RESOURCE_DEPENDENT);
-      task2.setName("Task 2");
+      task2.setName("Activity 2");
       createResourceAssignment(task2, resource2, Duration.getInstance(16, TimeUnit.HOURS));
 
-      Task task3 = createTask(summary1, ActivityType.TASK_DEPENDENT,"Task 3", Duration.getInstance(5, TimeUnit.DAYS));
+      Task task3 = createActivity(summary1, ActivityType.TASK_DEPENDENT,"Activity 3", Duration.getInstance(5, TimeUnit.DAYS));
 
       task3.addPredecessor(new Relation.Builder().predecessorTask(task1));
       task3.addPredecessor(new Relation.Builder().predecessorTask(task2));
 
       Task summary2 = file.addTask();
-      summary2.setName("Summary 2");
+      summary2.setName("WBS 2");
 
-      Task task4 = createTask(summary2, ActivityType.TASK_DEPENDENT,"Task 4", Duration.getInstance(2, TimeUnit.DAYS));
-      Task task5 = createTask(summary2, ActivityType.TASK_DEPENDENT,"Task 5", Duration.getInstance(2, TimeUnit.DAYS));
-      Task task6 = createTask(summary2, ActivityType.TASK_DEPENDENT,"Task 6", Duration.getInstance(2, TimeUnit.DAYS));
+      Task task4 = createActivity(summary2, ActivityType.TASK_DEPENDENT,"Activity 4", Duration.getInstance(2, TimeUnit.DAYS));
+      Task task5 = createActivity(summary2, ActivityType.TASK_DEPENDENT,"Activity 5", Duration.getInstance(2, TimeUnit.DAYS));
+      Task task6 = createActivity(summary2, ActivityType.TASK_DEPENDENT,"Activity 6", Duration.getInstance(2, TimeUnit.DAYS));
 
       task6.addPredecessor(new Relation.Builder().predecessorTask(task4));
       task6.addPredecessor(new Relation.Builder().predecessorTask(task5).lag(Duration.getInstance(1, TimeUnit.DAYS)));
 
-      Task milestone1 = createTask(file, ActivityType.FINISH_MILESTONE,"Milestone 1", Duration.getInstance(0, TimeUnit.DAYS));
+      Task milestone1 = createActivity(file, ActivityType.FINISH_MILESTONE,"Milestone 1", Duration.getInstance(0, TimeUnit.DAYS));
 
       milestone1.addPredecessor(new Relation.Builder().predecessorTask(task3));
       milestone1.addPredecessor(new Relation.Builder().predecessorTask(task6));
@@ -186,7 +186,7 @@ public class PrimaveraSchedulerSample
       new UniversalProjectWriter(FileFormat.PMXML).write(file, outputFile);
    }
 
-   public void projectWithResourcesAndProgress(File outputFile) throws Exception
+   public void progressedProjectResourceDependent(File outputFile) throws Exception
    {
       ProjectFile file = new ProjectFile();
 
@@ -209,35 +209,35 @@ public class PrimaveraSchedulerSample
       calendar2.setName("Resource 2");
 
       Task summary1 = file.addTask();
-      summary1.setName("Summary 1");
+      summary1.setName("WBS 1");
 
       Task task1 = summary1.addTask();
       task1.setActivityType(ActivityType.RESOURCE_DEPENDENT);
-      task1.setName("Task 1");
+      task1.setName("Activity 1");
 
       ResourceAssignment assignment1 = createResourceAssignment(task1, resource1, Duration.getInstance(32, TimeUnit.HOURS));
 
       Task task2 = summary1.addTask();
       task2.setActivityType(ActivityType.RESOURCE_DEPENDENT);
-      task2.setName("Task 2");
+      task2.setName("Activity 2");
       ResourceAssignment assignment2 = createResourceAssignment(task2, resource2, Duration.getInstance(16, TimeUnit.HOURS));
 
-      Task task3 = createTask(summary1, ActivityType.TASK_DEPENDENT,"Task 3", Duration.getInstance(5, TimeUnit.DAYS));
+      Task task3 = createActivity(summary1, ActivityType.TASK_DEPENDENT,"Activity 3", Duration.getInstance(5, TimeUnit.DAYS));
 
       task3.addPredecessor(new Relation.Builder().predecessorTask(task1));
       task3.addPredecessor(new Relation.Builder().predecessorTask(task2));
 
       Task summary2 = file.addTask();
-      summary2.setName("Summary 2");
+      summary2.setName("WBS 2");
 
-      Task task4 = createTask(summary2, ActivityType.TASK_DEPENDENT,"Task 4", Duration.getInstance(2, TimeUnit.DAYS));
-      Task task5 = createTask(summary2, ActivityType.TASK_DEPENDENT,"Task 5", Duration.getInstance(2, TimeUnit.DAYS));
-      Task task6 = createTask(summary2, ActivityType.TASK_DEPENDENT,"Task 6", Duration.getInstance(2, TimeUnit.DAYS));
+      Task task4 = createActivity(summary2, ActivityType.TASK_DEPENDENT,"Activity 4", Duration.getInstance(2, TimeUnit.DAYS));
+      Task task5 = createActivity(summary2, ActivityType.TASK_DEPENDENT,"Activity 5", Duration.getInstance(2, TimeUnit.DAYS));
+      Task task6 = createActivity(summary2, ActivityType.TASK_DEPENDENT,"Activity 6", Duration.getInstance(2, TimeUnit.DAYS));
 
       task6.addPredecessor(new Relation.Builder().predecessorTask(task4));
       task6.addPredecessor(new Relation.Builder().predecessorTask(task5).lag(Duration.getInstance(1, TimeUnit.DAYS)));
 
-      Task milestone1 = createTask(file, ActivityType.FINISH_MILESTONE,"Milestone 1", Duration.getInstance(0, TimeUnit.DAYS));
+      Task milestone1 = createActivity(file, ActivityType.FINISH_MILESTONE,"Milestone 1", Duration.getInstance(0, TimeUnit.DAYS));
 
       milestone1.addPredecessor(new Relation.Builder().predecessorTask(task3));
       milestone1.addPredecessor(new Relation.Builder().predecessorTask(task6));
@@ -259,7 +259,7 @@ public class PrimaveraSchedulerSample
       new UniversalProjectWriter(FileFormat.PMXML).write(file, outputFile);
    }
 
-   private Task createTask(ChildTaskContainer parent, ActivityType type, String name, Duration duration)
+   private Task createActivity(ChildTaskContainer parent, ActivityType type, String name, Duration duration)
    {
       Task task = parent.addTask();
       task.setActivityType(type);
@@ -279,7 +279,7 @@ public class PrimaveraSchedulerSample
       return assignment;
    }
 
-   private void progressTask(Task task, LocalDateTime actualStart, double percentComplete)
+   private void progressActivity(Task task, LocalDateTime actualStart, double percentComplete)
    {
       double durationValue = task.getDuration().getDuration();
       TimeUnit durationUnits = task.getDuration().getUnits();
