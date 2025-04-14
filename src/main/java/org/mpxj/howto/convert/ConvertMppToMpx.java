@@ -1,10 +1,10 @@
 package org.mpxj.howto.convert;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.mpp.MPPReader;
-import net.sf.mpxj.mpx.MPXWriter;
-import net.sf.mpxj.reader.ProjectReader;
-import net.sf.mpxj.writer.ProjectWriter;
+import org.mpxj.ProjectFile;
+import org.mpxj.mpp.MPPReader;
+import org.mpxj.mpx.MPXWriter;
+import org.mpxj.reader.ProjectReader;
+import org.mpxj.writer.ProjectWriter;
 
 public class ConvertMppToMpx
 {

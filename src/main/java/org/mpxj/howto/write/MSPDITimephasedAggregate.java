@@ -1,7 +1,7 @@
 package org.mpxj.howto.write;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.mspdi.MSPDIWriter;
+import org.mpxj.ProjectFile;
+import org.mpxj.mspdi.MSPDIWriter;
 
 public class MSPDITimephasedAggregate
 {

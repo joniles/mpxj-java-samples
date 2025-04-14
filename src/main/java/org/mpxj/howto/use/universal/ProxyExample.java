@@ -1,10 +1,10 @@
 package org.mpxj.howto.use.universal;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.phoenix.PhoenixReader;
-import net.sf.mpxj.reader.ProjectReader;
-import net.sf.mpxj.reader.UniversalProjectReader;
-import net.sf.mpxj.sdef.SDEFReader;
+import org.mpxj.ProjectFile;
+import org.mpxj.phoenix.PhoenixReader;
+import org.mpxj.reader.ProjectReader;
+import org.mpxj.reader.UniversalProjectReader;
+import org.mpxj.sdef.SDEFReader;
 
 import java.io.File;
 

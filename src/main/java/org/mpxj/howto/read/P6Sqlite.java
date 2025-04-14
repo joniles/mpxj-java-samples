@@ -1,7 +1,7 @@
 package org.mpxj.howto.read;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.primavera.PrimaveraDatabaseFileReader;
+import org.mpxj.ProjectFile;
+import org.mpxj.primavera.PrimaveraDatabaseFileReader;
 
 import java.io.File;
 import java.util.Map;

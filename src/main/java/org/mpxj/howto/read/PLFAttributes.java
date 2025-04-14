@@ -1,7 +1,7 @@
 package org.mpxj.howto.read;
 
-import net.sf.mpxj.primavera.StructuredTextParser;
-import net.sf.mpxj.primavera.StructuredTextRecord;
+import org.mpxj.primavera.StructuredTextParser;
+import org.mpxj.primavera.StructuredTextRecord;
 
 import java.io.FileInputStream;
 import java.util.List;

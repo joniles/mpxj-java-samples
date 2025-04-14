@@ -1,8 +1,8 @@
 package org.mpxj.fields;
 
-import net.sf.mpxj.*;
-import net.sf.mpxj.common.FieldLists;
-import net.sf.mpxj.reader.UniversalProjectReader;
+import org.mpxj.*;
+import org.mpxj.common.FieldLists;
+import org.mpxj.reader.UniversalProjectReader;
 
 import java.util.Map;
 import java.util.Objects;

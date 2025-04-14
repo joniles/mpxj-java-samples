@@ -1,7 +1,7 @@
 package org.mpxj.howto.read;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.sage.SageReader;
+import org.mpxj.ProjectFile;
+import org.mpxj.sage.SageReader;
 
 public class ScheduleGridIgnoreErrors
 {

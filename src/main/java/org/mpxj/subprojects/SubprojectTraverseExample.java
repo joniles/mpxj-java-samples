@@ -1,8 +1,8 @@
 package org.mpxj.subprojects;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.Task;
-import net.sf.mpxj.reader.UniversalProjectReader;
+import org.mpxj.ProjectFile;
+import org.mpxj.Task;
+import org.mpxj.reader.UniversalProjectReader;
 
 import java.io.File;
 import java.util.List;

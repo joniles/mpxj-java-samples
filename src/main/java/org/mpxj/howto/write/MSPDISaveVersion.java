@@ -1,8 +1,8 @@
 package org.mpxj.howto.write;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.mspdi.MSPDIWriter;
-import net.sf.mpxj.mspdi.SaveVersion;
+import org.mpxj.ProjectFile;
+import org.mpxj.mspdi.MSPDIWriter;
+import org.mpxj.mspdi.SaveVersion;
 
 public class MSPDISaveVersion
 {

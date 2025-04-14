@@ -1,9 +1,9 @@
 package org.mpxj.howto.convert;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.reader.UniversalProjectReader;
-import net.sf.mpxj.writer.FileFormat;
-import net.sf.mpxj.writer.UniversalProjectWriter;
+import org.mpxj.ProjectFile;
+import org.mpxj.reader.UniversalProjectReader;
+import org.mpxj.writer.FileFormat;
+import org.mpxj.writer.UniversalProjectWriter;
 
 public class ConvertUniversal
 {
