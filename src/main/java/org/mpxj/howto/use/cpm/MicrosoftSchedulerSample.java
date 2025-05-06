@@ -1,10 +1,10 @@
 package org.mpxj.howto.use.cpm;
 
-import net.sf.mpxj.*;
-import net.sf.mpxj.cpm.MicrosoftScheduler;
-import net.sf.mpxj.reader.UniversalProjectReader;
-import net.sf.mpxj.writer.FileFormat;
-import net.sf.mpxj.writer.UniversalProjectWriter;
+import org.mpxj.*;
+import org.mpxj.cpm.MicrosoftScheduler;
+import org.mpxj.reader.UniversalProjectReader;
+import org.mpxj.writer.FileFormat;
+import org.mpxj.writer.UniversalProjectWriter;
 
 import java.io.File;
 import java.time.LocalDate;

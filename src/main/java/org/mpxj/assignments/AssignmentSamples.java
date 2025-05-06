@@ -1,9 +1,9 @@
 package org.mpxj.assignments;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.Resource;
-import net.sf.mpxj.ResourceAssignment;
-import net.sf.mpxj.reader.UniversalProjectReader;
+import org.mpxj.ProjectFile;
+import org.mpxj.Resource;
+import org.mpxj.ResourceAssignment;
+import org.mpxj.reader.UniversalProjectReader;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package org.mpxj.howto.read;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.primavera.PrimaveraXERFileReader;
+import org.mpxj.ProjectFile;
+import org.mpxj.primavera.PrimaveraXERFileReader;
 
 import java.nio.charset.Charset;
 

@@ -1,8 +1,8 @@
 package org.mpxj.howto.read;
 
-import net.sf.mpxj.FieldType;
-import net.sf.mpxj.TaskField;
-import net.sf.mpxj.primavera.PrimaveraXERFileReader;
+import org.mpxj.FieldType;
+import org.mpxj.TaskField;
+import org.mpxj.primavera.PrimaveraXERFileReader;
 
 import java.util.Map;
 

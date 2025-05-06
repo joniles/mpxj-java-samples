@@ -1,7 +1,7 @@
 package org.mpxj.howto.read;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.primavera.PrimaveraDatabaseReader;
+import org.mpxj.ProjectFile;
+import org.mpxj.primavera.PrimaveraDatabaseReader;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

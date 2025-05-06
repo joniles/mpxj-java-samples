@@ -1,6 +1,6 @@
 package org.mpxj.howto.use.calendars;
 
-import net.sf.mpxj.*;
+import org.mpxj.*;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;

@@ -1,9 +1,9 @@
 package org.mpxj.howto.use.cpm;
 
-import net.sf.mpxj.*;
-import net.sf.mpxj.cpm.PrimaveraScheduler;
-import net.sf.mpxj.writer.FileFormat;
-import net.sf.mpxj.writer.UniversalProjectWriter;
+import org.mpxj.*;
+import org.mpxj.cpm.PrimaveraScheduler;
+import org.mpxj.writer.FileFormat;
+import org.mpxj.writer.UniversalProjectWriter;
 
 import java.io.File;
 import java.time.LocalDate;

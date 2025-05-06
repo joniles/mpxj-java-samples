@@ -1,7 +1,7 @@
 package org.mpxj.howto.write;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.mpx.MPXWriter;
+import org.mpxj.ProjectFile;
+import org.mpxj.mpx.MPXWriter;
 
 import java.util.Locale;
 

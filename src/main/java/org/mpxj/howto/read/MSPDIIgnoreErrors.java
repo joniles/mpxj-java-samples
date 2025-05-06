@@ -1,7 +1,7 @@
 package org.mpxj.howto.read;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.mspdi.MSPDIReader;
+import org.mpxj.ProjectFile;
+import org.mpxj.mspdi.MSPDIReader;
 
 public class MSPDIIgnoreErrors
 {

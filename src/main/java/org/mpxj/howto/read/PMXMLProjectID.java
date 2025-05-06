@@ -1,7 +1,7 @@
 package org.mpxj.howto.read;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.primavera.PrimaveraPMFileReader;
+import org.mpxj.ProjectFile;
+import org.mpxj.primavera.PrimaveraPMFileReader;
 
 public class PMXMLProjectID
 {

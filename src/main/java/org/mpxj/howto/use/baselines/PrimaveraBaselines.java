@@ -1,10 +1,10 @@
 package org.mpxj.howto.use.baselines;
 
-import net.sf.mpxj.MPXJException;
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.primavera.PrimaveraBaselineStrategy;
-import net.sf.mpxj.primavera.PrimaveraPMFileReader;
-import net.sf.mpxj.reader.UniversalProjectReader;
+import org.mpxj.MPXJException;
+import org.mpxj.ProjectFile;
+import org.mpxj.primavera.PrimaveraBaselineStrategy;
+import org.mpxj.primavera.PrimaveraPMFileReader;
+import org.mpxj.reader.UniversalProjectReader;
 
 public class PrimaveraBaselines
 {
