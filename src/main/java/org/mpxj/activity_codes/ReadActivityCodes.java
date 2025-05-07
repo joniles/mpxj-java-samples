@@ -5,8 +5,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import net.sf.mpxj.*;
-import net.sf.mpxj.reader.UniversalProjectReader;
+import org.mpxj.*;
+import org.mpxj.reader.UniversalProjectReader;
 
 public class ReadActivityCodes
 {

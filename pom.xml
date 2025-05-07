@@ -21,7 +21,7 @@
     <dependency>
       <groupId>net.sf.mpxj</groupId>
       <artifactId>mpxj</artifactId>
-      <version>13.11.0</version>
+      <version>13.12.0</version>
     </dependency>
   </dependencies>
 

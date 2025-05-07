@@ -1,8 +1,8 @@
 package org.mpxj.timephased;
 
-import net.sf.mpxj.*;
-import net.sf.mpxj.common.DefaultTimephasedWorkContainer;
-import net.sf.mpxj.mspdi.MSPDIWriter;
+import org.mpxj.*;
+import org.mpxj.common.DefaultTimephasedWorkContainer;
+import org.mpxj.mspdi.MSPDIWriter;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;

@@ -1,8 +1,8 @@
 package org.mpxj.howto.read;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.primavera.PrimaveraPMFileReader;
-import net.sf.mpxj.primavera.PrimaveraBaselineStrategy;
+import org.mpxj.ProjectFile;
+import org.mpxj.primavera.PrimaveraPMFileReader;
+import org.mpxj.primavera.PrimaveraBaselineStrategy;
 
 import java.util.List;
 
