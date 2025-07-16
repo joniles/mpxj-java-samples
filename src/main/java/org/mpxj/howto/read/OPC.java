@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.mpxj.MPXJException;
@@ -61,8 +63,32 @@ public class OPC
       }
    }
 
-   public void baselines(OpcReader reader, OpcProject opcProject)
+   public void baselines1(OpcReader reader, OpcProject opcProject) throws MPXJException
    {
       List<OpcProjectBaseline> baselines = reader.getProjectBaselines(opcProject);
+
+      // We're assuming that the project has more than one baseline.
+      // We'll just request data from the first baseline.
+      List<OpcProjectBaseline> requiredBaselines = Collections.singletonList(baselines.get(0));
+      ProjectFile mpxjProject = reader.readProject(opcProject, requiredBaselines);
+
    }
+
+   public void baseliness(OpcReader reader, OpcProject opcProject) throws MPXJException
+   {
+      List<OpcProjectBaseline> requiredBaselines = new ArrayList<>();
+
+      OpcProjectBaseline baseline1 = new OpcProjectBaseline();
+      baseline1.setProjectBaselineId(789);
+      requiredBaselines.add(baseline1);
+
+      OpcProjectBaseline baseline2 = new OpcProjectBaseline();
+      baseline2.setProjectBaselineId(790);
+      requiredBaselines.add(baseline2);
+
+      ProjectFile mpxjProject = reader.readProject(opcProject, requiredBaselines);
+
+   }
+
+
 }
