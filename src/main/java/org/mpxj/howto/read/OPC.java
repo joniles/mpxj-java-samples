@@ -74,7 +74,7 @@ public class OPC
 
    }
 
-   public void baseliness(OpcReader reader, OpcProject opcProject) throws MPXJException
+   public void baselines2(OpcReader reader, OpcProject opcProject) throws MPXJException
    {
       List<OpcProjectBaseline> requiredBaselines = new ArrayList<>();
 
@@ -90,5 +90,14 @@ public class OPC
 
    }
 
+   public void baselines3(OpcReader reader, OpcProject opcProject) throws IOException
+   {
+      List<OpcProjectBaseline> baselines = reader.getProjectBaselines(opcProject);
 
+      // We're assuming that the project has more than one baseline.
+      // We'll just request data from the first baseline.
+      List<OpcProjectBaseline> requiredBaselines = Collections.singletonList(baselines.get(0));
+      reader.exportProject(opcProject, requiredBaselines, "export-file.xml", OpcExportType.XML, false);
+
+   }
 }
