@@ -1,8 +1,8 @@
 package org.mpxj.notes;
 
-import net.sf.mpxj.reader.UniversalProjectReader;
-import net.sf.mpxj.writer.FileFormat;
-import net.sf.mpxj.writer.UniversalProjectWriter;
+import org.mpxj.reader.UniversalProjectReader;
+import org.mpxj.writer.FileFormat;
+import org.mpxj.writer.UniversalProjectWriter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -11,11 +11,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import net.sf.mpxj.Notes;
-import net.sf.mpxj.NotesTopic;
-import net.sf.mpxj.ParentNotes;
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.StructuredNotes;
+import org.mpxj.Notes;
+import org.mpxj.NotesTopic;
+import org.mpxj.ParentNotes;
+import org.mpxj.ProjectFile;
+import org.mpxj.StructuredNotes;
 
 /**
  * Reads an XER or PMXML file and adds or updates project notes using custom topic.
