@@ -1,6 +1,6 @@
 package org.mpxj.howto.read;
 
-import net.sf.mpxj.primavera.PrimaveraPMFileReader;
+import org.mpxj.primavera.PrimaveraPMFileReader;
 
 import java.io.FileInputStream;
 import java.util.Map;

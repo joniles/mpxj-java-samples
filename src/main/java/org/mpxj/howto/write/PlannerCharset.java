@@ -1,7 +1,7 @@
 package org.mpxj.howto.write;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.planner.PlannerWriter;
+import org.mpxj.ProjectFile;
+import org.mpxj.planner.PlannerWriter;
 
 import java.nio.charset.Charset;
 

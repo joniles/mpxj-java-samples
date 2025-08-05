@@ -1,7 +1,7 @@
 package org.mpxj.howto.read;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.mpp.MPPReader;
+import org.mpxj.ProjectFile;
+import org.mpxj.mpp.MPPReader;
 
 public class MPPPresentationData
 {

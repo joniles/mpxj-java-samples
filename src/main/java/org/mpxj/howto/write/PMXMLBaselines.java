@@ -1,7 +1,7 @@
 package org.mpxj.howto.write;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.primavera.PrimaveraPMFileWriter;
+import org.mpxj.ProjectFile;
+import org.mpxj.primavera.PrimaveraPMFileWriter;
 
 public class PMXMLBaselines
 {

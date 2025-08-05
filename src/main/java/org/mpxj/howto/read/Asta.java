@@ -1,7 +1,7 @@
 package org.mpxj.howto.read;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.reader.UniversalProjectReader;
+import org.mpxj.ProjectFile;
+import org.mpxj.reader.UniversalProjectReader;
 
 public class Asta
 {

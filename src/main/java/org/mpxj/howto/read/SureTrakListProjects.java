@@ -1,7 +1,7 @@
 package org.mpxj.howto.read;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.primavera.suretrak.SureTrakDatabaseReader;
+import org.mpxj.ProjectFile;
+import org.mpxj.primavera.suretrak.SureTrakDatabaseReader;
 
 import java.util.List;
 

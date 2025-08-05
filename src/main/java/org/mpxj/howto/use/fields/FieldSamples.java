@@ -1,7 +1,7 @@
 package org.mpxj.howto.use.fields;
 
-import net.sf.mpxj.*;
-import net.sf.mpxj.reader.UniversalProjectReader;
+import org.mpxj.*;
+import org.mpxj.reader.UniversalProjectReader;
 
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;

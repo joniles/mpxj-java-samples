@@ -1,7 +1,7 @@
 package org.mpxj.howto.read;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.mpx.MPXReader;
+import org.mpxj.ProjectFile;
+import org.mpxj.mpx.MPXReader;
 
 import java.util.Locale;
 
