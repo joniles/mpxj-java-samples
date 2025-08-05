@@ -1,9 +1,9 @@
 package org.mpxj.timephased;
 
-import net.sf.mpxj.mpp.TimescaleUnits;
-import net.sf.mpxj.reader.UniversalProjectReader;
-import net.sf.mpxj.utility.TimephasedUtility;
-import net.sf.mpxj.utility.TimescaleUtility;
+import org.mpxj.mpp.TimescaleUnits;
+import org.mpxj.reader.UniversalProjectReader;
+import org.mpxj.utility.TimephasedUtility;
+import org.mpxj.utility.TimescaleUtility;
 
 import java.io.FileOutputStream;
 import java.io.PrintStream;
@@ -16,14 +16,14 @@ import java.util.List;
 import java.util.function.Function;
 
 
-import net.sf.mpxj.Duration;
-import net.sf.mpxj.LocalDateTimeRange;
-import net.sf.mpxj.ProjectCalendar;
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.Resource;
-import net.sf.mpxj.ResourceAssignment;
-import net.sf.mpxj.TimeUnit;
-import net.sf.mpxj.TimephasedWork;
+import org.mpxj.Duration;
+import org.mpxj.LocalDateTimeRange;
+import org.mpxj.ProjectCalendar;
+import org.mpxj.ProjectFile;
+import org.mpxj.Resource;
+import org.mpxj.ResourceAssignment;
+import org.mpxj.TimeUnit;
+import org.mpxj.TimephasedWork;
 
 /**
  * Generate an HTML file which approximates the "Resource Assignments" timephased data view in P6.
