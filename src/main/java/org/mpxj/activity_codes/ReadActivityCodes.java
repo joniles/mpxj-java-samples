@@ -1,12 +1,12 @@
 package org.mpxj.activity_codes;
 
-import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import net.sf.mpxj.*;
-import net.sf.mpxj.reader.UniversalProjectReader;
+import org.mpxj.*;
+import org.mpxj.reader.UniversalProjectReader;
 
 public class ReadActivityCodes
 {
@@ -64,7 +64,7 @@ public class ReadActivityCodes
          //
          for (ActivityCodeValue value : code.getValues())
          {
-            String parent = value.getParent() == null ? null : "Parent: " + value.getParent().getUniqueID();
+            String parent = value.getParentValue() == null ? null : "Parent: " + value.getParentValue().getUniqueID();
             String description = value.getDescription() == null || value.getDescription().isEmpty() ? null : "Description: " + value.getDescription();
             String sequenceNumber = "Sequence: " + value.getSequenceNumber();
             String color = value.getColor() == null ? null : "Color: " + getColor(value);
@@ -90,16 +90,16 @@ public class ReadActivityCodes
          //
          // Display any activity code values for this task
          //
-         List<ActivityCodeValue> values = task.getActivityCodes();
+         Map<ActivityCode, ActivityCodeValue> values = task.getActivityCodeValues();
          if (values.isEmpty())
          {
             System.out.println("\t(no activity codes assigned)");
          }
          else
          {
-            for (ActivityCodeValue value : values)
+            for (Map.Entry<ActivityCode, ActivityCodeValue> entry : values.entrySet())
             {
-               System.out.println("\t" + value.getType().getName() + ":\t" + value.getName());
+               System.out.println("\t" + entry.getKey().getName() + ":\t" + entry.getValue().getName());
             }
          }
       }

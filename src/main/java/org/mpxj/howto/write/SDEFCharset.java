@@ -1,7 +1,7 @@
 package org.mpxj.howto.write;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.sdef.SDEFWriter;
+import org.mpxj.ProjectFile;
+import org.mpxj.sdef.SDEFWriter;
 
 import java.nio.charset.StandardCharsets;
 

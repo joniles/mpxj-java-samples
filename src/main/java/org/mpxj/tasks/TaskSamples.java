@@ -1,9 +1,9 @@
 package org.mpxj.tasks;
 
-import net.sf.mpxj.ChildTaskContainer;
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.Task;
-import net.sf.mpxj.reader.UniversalProjectReader;
+import org.mpxj.ChildTaskContainer;
+import org.mpxj.ProjectFile;
+import org.mpxj.Task;
+import org.mpxj.reader.UniversalProjectReader;
 
 public class TaskSamples
 {

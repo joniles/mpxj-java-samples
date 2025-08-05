@@ -1,8 +1,8 @@
 package org.mpxj.howto.write;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.writer.FileFormat;
-import net.sf.mpxj.writer.UniversalProjectWriter;
+import org.mpxj.ProjectFile;
+import org.mpxj.writer.FileFormat;
+import org.mpxj.writer.UniversalProjectWriter;
 
 public class MPX
 {

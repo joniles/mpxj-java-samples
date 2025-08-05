@@ -1,10 +1,10 @@
 package org.mpxj.howto.use.baselines;
 
-import net.sf.mpxj.MPXJException;
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.ProjectProperties;
-import net.sf.mpxj.Task;
-import net.sf.mpxj.reader.UniversalProjectReader;
+import org.mpxj.MPXJException;
+import org.mpxj.ProjectFile;
+import org.mpxj.ProjectProperties;
+import org.mpxj.Task;
+import org.mpxj.reader.UniversalProjectReader;
 
 import java.time.LocalDateTime;
 

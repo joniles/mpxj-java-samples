@@ -1,7 +1,7 @@
 package org.mpxj.howto.read;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.primavera.p3.P3DatabaseReader;
+import org.mpxj.ProjectFile;
+import org.mpxj.primavera.p3.P3DatabaseReader;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package org.mpxj.howto.read;
 
-import net.sf.mpxj.ProjectFile;
-import net.sf.mpxj.sdef.SDEFReader;
+import org.mpxj.ProjectFile;
+import org.mpxj.sdef.SDEFReader;
 
 public class SDEFIgnoreErrors
 {
