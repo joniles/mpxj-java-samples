@@ -31,7 +31,7 @@ import java.util.Map;
  * and return an access token suitable for use with
  * the Microsoft hosted Project Server/PWA/Project Online API.
  * Note that this code is just to demonstrate the basic settings and steps required
- * to get an OAuth access token suitable for use with the PAW API.
+ * to get an OAuth access token suitable for use with the PWA API.
  * It is highly recommended that you use a library like Microsoft's MSAL to provide a
  * production-grade OAuth flow.
  */
