@@ -4,10 +4,17 @@ import org.mpxj.ProjectFile;
 import org.mpxj.writer.FileFormat;
 import org.mpxj.writer.UniversalProjectWriter;
 
+import java.util.List;
+
 public class PMXML
 {
    public void write(ProjectFile project, String fileName) throws Exception
    {
       new UniversalProjectWriter(FileFormat.PMXML).write(project, fileName);
+   }
+
+   public void write(List<ProjectFile> projects, String fileName) throws Exception
+   {
+      new UniversalProjectWriter(FileFormat.PMXML).write(projects, fileName);
    }
 }
