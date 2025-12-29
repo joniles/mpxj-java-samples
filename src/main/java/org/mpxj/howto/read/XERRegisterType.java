@@ -11,10 +11,10 @@ public class XERRegisterType
 {
    public void read() throws Exception
    {
-      PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
-      Map<String, DataType> fieldTypeMap = reader.getFieldTypeMap();
-      fieldTypeMap.put("an_example_id", DataType.INTEGER);
-      Map<FieldType, String> activityFieldMap = reader.getActivityFieldMap();
-      activityFieldMap.put(TaskField.NUMBER2, "an_example_id");
+//      PrimaveraXERFileReader reader = new PrimaveraXERFileReader();
+//      Map<String, DataType> fieldTypeMap = reader.getFieldTypeMap();
+//      fieldTypeMap.put("an_example_id", DataType.INTEGER);
+//      Map<FieldType, String> activityFieldMap = reader.getActivityFieldMap();
+//      activityFieldMap.put(TaskField.NUMBER2, "an_example_id");
    }
 }

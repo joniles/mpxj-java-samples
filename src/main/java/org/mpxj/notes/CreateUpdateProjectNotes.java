@@ -79,14 +79,14 @@ public class CreateUpdateProjectNotes
       StructuredNotes notes = childNotes.stream().map(n -> (StructuredNotes)n).filter(n -> n.getNotesTopic() == topic).findFirst().orElse(null);
       if (notes == null)
       {
-         childNotes.add(new StructuredNotes(file, null, topic, new Notes("Created: " + LocalDateTime.now())));
+         childNotes.add(new StructuredNotes(file.getProjectContext(), null, topic, new Notes("Created: " + LocalDateTime.now())));
       }
       else
       {
          String existingText = notes.getNotes().toString();
          String newText = existingText + "\n" + "Updated: " + LocalDateTime.now();
          childNotes.remove(notes);
-         childNotes.add(new StructuredNotes(file, null, topic, new Notes(newText)));
+         childNotes.add(new StructuredNotes(file.getProjectContext(), null, topic, new Notes(newText)));
       }
 
       new UniversalProjectWriter(fileFormat).write(file, outputFile);
