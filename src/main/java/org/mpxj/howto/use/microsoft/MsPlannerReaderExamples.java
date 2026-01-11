@@ -1,28 +1,28 @@
-package org.mpxj.howto.use.pwa;
-
-import org.mpxj.ProjectFile;
-import org.mpxj.pwa.PwaProject;
-import org.mpxj.pwa.PwaReader;
+package org.mpxj.howto.use.microsoft;
 
 import java.util.List;
 import java.util.UUID;
 
-public class PwaReaderExamples
+import org.mpxj.ProjectFile;
+import org.mpxj.msplanner.MsPlannerProject;
+import org.mpxj.msplanner.MsPlannerReader;
+
+public class MsPlannerReaderExamples
 {
    public void read()
    {
-      // The URL for your Project Server instance
-      String projectServerUrl = "https://example.sharepoint.com/sites/pwa";
+      // The URL for your organisation's Dynamics server instance
+      String dynamicsServerUrl = "https://example.api.crm11.dynamics.com";
 
       // We're assuming you have already authenticated as a user and have an access token
       String accessToken = "my-access-token-from-oauth";
 
       // Create a reader
-      PwaReader reader = new PwaReader(projectServerUrl, accessToken);
+      MsPlannerReader reader = new MsPlannerReader(dynamicsServerUrl, accessToken);
 
       // Retrieve the projects available and print their details
-      List<PwaProject> projects = reader.getProjects();
-      for (PwaProject project : projects)
+      List<MsPlannerProject> projects = reader.getProjects();
+      for (MsPlannerProject project : projects)
       {
          System.out.println("ID: " + project.getProjectId() + " Name: " + project.getProjectName());
       }
