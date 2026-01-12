@@ -1,4 +1,4 @@
-package org.mpxj.howto.use.pwa;
+package org.mpxj.howto.use.microsoft;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
