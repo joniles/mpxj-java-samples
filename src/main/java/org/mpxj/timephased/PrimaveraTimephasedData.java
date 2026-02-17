@@ -108,35 +108,42 @@ public class PrimaveraTimephasedData
       }
       ps.println("</tr>");
 
-      for (Resource resource : m_file.getResources())
+      for (Resource resource : m_file.getChildResources())
       {
-         List<ResourceAssignment> assignments = resource.getTaskAssignments();
-         if (assignments.isEmpty())
-         {
-            continue;
-         }
-
-         String cssClass = resource.getChildResources().isEmpty() ? "child-resource" : "parent-resource";
-         ps.println("<tr class='"+ cssClass +"'>");
-         ps.println("<td colspan='2'>" + resource.getName() + "</td>");
-         writeWorkColumns(ps, resource.getCalendar(), resource.getTimephasedDurationValues(resourceField, m_timescale, TimeUnit.HOURS));
-         ps.println("</tr>");
-
-         for (ResourceAssignment assignment : assignments)
-         {
-            ps.println("<tr>");
-            ps.println("<td>" + assignment.getTask().getActivityID() + "</td>");
-            ps.println("<td>" + assignment.getTask().getName() + "</td>");
-            ProjectCalendar calendar = assignment.getEffectiveCalendar();
-            writeWorkColumns(ps, calendar, assignment.getTimephasedDurationValues(assignmentField, m_timescale, TimeUnit.HOURS));
-            ps.println("</tr>");
-         }
+         writeResource(ps, resource, resourceField, assignmentField);
       }
 
       ps.println("</thead>");
       ps.println("<tbody>");
       ps.println("</tbody>");
       ps.println("</table>");
+   }
+
+   private void writeResource(PrintStream ps, Resource resource, ResourceField resourceField, AssignmentField assignmentField)
+   {
+      List<ResourceAssignment> assignments = resource.getTaskAssignments();
+      if (assignments.isEmpty() && resource.getChildResources().isEmpty())
+      {
+         return;
+      }
+
+      String cssClass = resource.getChildResources().isEmpty() ? "child-resource" : "parent-resource";
+      ps.println("<tr class='"+ cssClass +"'>");
+      ps.println("<td colspan='2'>" + resource.getName() + "</td>");
+      writeWorkColumns(ps, resource.getCalendar(), resource.getTimephasedDurationValues(resourceField, m_timescale, TimeUnit.HOURS));
+      ps.println("</tr>");
+
+      for (ResourceAssignment assignment : assignments)
+      {
+         ps.println("<tr>");
+         ps.println("<td>" + assignment.getTask().getActivityID() + "</td>");
+         ps.println("<td>" + assignment.getTask().getName() + "</td>");
+         ProjectCalendar calendar = assignment.getEffectiveCalendar();
+         writeWorkColumns(ps, calendar, assignment.getTimephasedDurationValues(assignmentField, m_timescale, TimeUnit.HOURS));
+         ps.println("</tr>");
+      }
+
+      resource.getChildResources().forEach(r -> writeResource(ps, r, resourceField, assignmentField));
    }
 
    private void writeWorkColumns(PrintStream ps, ProjectCalendar calendar, List<Duration> work)
