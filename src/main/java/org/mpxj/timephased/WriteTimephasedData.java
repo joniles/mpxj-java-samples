@@ -1,7 +1,6 @@
 package org.mpxj.timephased;
 
 import org.mpxj.*;
-import org.mpxj.common.DefaultTimephasedWorkContainer;
 import org.mpxj.mspdi.MSPDIWriter;
 
 import java.time.LocalDateTime;
@@ -10,7 +9,6 @@ import java.util.Collections;
 
 /**
  * Sample class illustrating how timephased data can be written to an MSPDI file.
- * NOTE: the APIs used here are subject to change.
  */
 public class WriteTimephasedData {
 
@@ -46,9 +44,6 @@ public class WriteTimephasedData {
 
       // By default, timephased data is not written, so we need to enable it
       writer.setWriteTimephasedData(true);
-
-      // tell MPXJ not to change the timephased data before writing it
-      writer.setSplitTimephasedAsDays(false);
 
       writer.write(file, outputFileName);
    }
@@ -171,8 +166,7 @@ public class WriteTimephasedData {
       remainingWork.setFinish(LocalDateTime.of(2024, 3, 8, 17, 0));
       remainingWork.setTotalAmount(Duration.getInstance(24, TimeUnit.HOURS));
 
-      DefaultTimephasedWorkContainer timephasedRemainingWork = new DefaultTimephasedWorkContainer(assignment, null, Arrays.asList(day1RemainingWork, day2RemainingWork, remainingWork), false);
-      assignment.setTimephasedWork(timephasedRemainingWork);
+      assignment.getRawTimephasedRemainingRegularWork().addAll(Arrays.asList(day1RemainingWork, day2RemainingWork, remainingWork));
    }
 
    /**
@@ -232,11 +226,8 @@ public class WriteTimephasedData {
       remainingWork.setFinish(LocalDateTime.of(2024, 3, 8, 17, 0));
       remainingWork.setTotalAmount(Duration.getInstance(24, TimeUnit.HOURS));
 
-      DefaultTimephasedWorkContainer timephasedActualWork = new DefaultTimephasedWorkContainer(assignment, null, Collections.singletonList(day1ActualWork), false);
-      assignment.setTimephasedActualWork(timephasedActualWork);
-
-      DefaultTimephasedWorkContainer timephasedRemainingWork = new DefaultTimephasedWorkContainer(assignment, null, Arrays.asList(day1RemainingWork, day2RemainingWork, remainingWork), false);
-      assignment.setTimephasedWork(timephasedRemainingWork);
+      assignment.getRawTimephasedActualRegularWork().add(day1ActualWork);
+      assignment.getRawTimephasedRemainingRegularWork().addAll(Arrays.asList(day1RemainingWork, day2RemainingWork, remainingWork));
    }
 
    /**
@@ -285,10 +276,8 @@ public class WriteTimephasedData {
       actualWork.setFinish(LocalDateTime.of(2024, 3, 8, 17, 0));
       actualWork.setTotalAmount(Duration.getInstance(24, TimeUnit.HOURS));
 
-      DefaultTimephasedWorkContainer timephasedActualWork = new DefaultTimephasedWorkContainer(assignment, null, Arrays.asList(day1ActualWork, day2ActualWork, actualWork), false);
-      assignment.setTimephasedActualWork(timephasedActualWork);
+      assignment.getRawTimephasedActualRegularWork().addAll(Arrays.asList(day1ActualWork, day2ActualWork, actualWork));
    }
-
 
    /**
     * Create a split task, 1 working day, 1 non-working day
@@ -333,8 +322,7 @@ public class WriteTimephasedData {
       remainingWork.setFinish(LocalDateTime.of(2024, 3, 11, 17, 0));
       remainingWork.setTotalAmount(Duration.getInstance(32, TimeUnit.HOURS));
 
-      DefaultTimephasedWorkContainer timephasedRemainingWork = new DefaultTimephasedWorkContainer(assignment, null, Arrays.asList(day1RemainingWork, remainingWork), false);
-      assignment.setTimephasedWork(timephasedRemainingWork);
+      assignment.getRawTimephasedRemainingRegularWork().addAll(Arrays.asList(day1RemainingWork, remainingWork));
    }
 
    /**
@@ -395,11 +383,8 @@ public class WriteTimephasedData {
       remainingWork.setFinish(LocalDateTime.of(2024, 3, 11, 17, 0));
       remainingWork.setTotalAmount(Duration.getInstance(36, TimeUnit.HOURS));
 
-      DefaultTimephasedWorkContainer timephasedActualWork = new DefaultTimephasedWorkContainer(assignment, null, Collections.singletonList(day1ActualWork), false);
-      assignment.setTimephasedActualWork(timephasedActualWork);
-
-      DefaultTimephasedWorkContainer timephasedRemainingWork = new DefaultTimephasedWorkContainer(assignment, null, Arrays.asList(day1RemainingWork, remainingWork), false);
-      assignment.setTimephasedWork(timephasedRemainingWork);
+      assignment.getRawTimephasedActualRegularWork().add(day1ActualWork);
+      assignment.getRawTimephasedRemainingRegularWork().addAll(Arrays.asList(day1RemainingWork, remainingWork));
    }
 
    /**
@@ -454,11 +439,8 @@ public class WriteTimephasedData {
       remainingWork.setFinish(LocalDateTime.of(2024, 3, 11, 17, 0));
       remainingWork.setTotalAmount(Duration.getInstance(32, TimeUnit.HOURS));
 
-      DefaultTimephasedWorkContainer timephasedActualWork = new DefaultTimephasedWorkContainer(assignment, null, Collections.singletonList(day1ActualWork), false);
-      assignment.setTimephasedActualWork(timephasedActualWork);
-
-      DefaultTimephasedWorkContainer timephasedRemainingWork = new DefaultTimephasedWorkContainer(assignment, null, Collections.singletonList(remainingWork), false);
-      assignment.setTimephasedWork(timephasedRemainingWork);
+      assignment.getRawTimephasedActualRegularWork().add(day1ActualWork);
+      assignment.getRawTimephasedRemainingRegularWork().add(remainingWork);
    }
 
    /**
@@ -517,11 +499,8 @@ public class WriteTimephasedData {
       remainingWork.setFinish(LocalDateTime.of(2024, 3, 11, 17, 0));
       remainingWork.setTotalAmount(Duration.getInstance(24, TimeUnit.HOURS));
 
-      DefaultTimephasedWorkContainer timephasedActualWork = new DefaultTimephasedWorkContainer(assignment, null, Arrays.asList(day1ActualWork, day3ActualWork), false);
-      assignment.setTimephasedActualWork(timephasedActualWork);
-
-      DefaultTimephasedWorkContainer timephasedRemainingWork = new DefaultTimephasedWorkContainer(assignment, null, Collections.singletonList(remainingWork), false);
-      assignment.setTimephasedWork(timephasedRemainingWork);
+      assignment.getRawTimephasedActualRegularWork().addAll(Arrays.asList(day1ActualWork, day3ActualWork, remainingWork));
+      assignment.getRawTimephasedRemainingRegularWork().add(remainingWork);
    }
 
    /**
@@ -571,7 +550,6 @@ public class WriteTimephasedData {
       actualWork.setFinish(LocalDateTime.of(2024, 3, 11, 17, 0));
       actualWork.setTotalAmount(Duration.getInstance(32, TimeUnit.HOURS));
 
-      DefaultTimephasedWorkContainer timephasedActualWork = new DefaultTimephasedWorkContainer(assignment, null, Arrays.asList(day1actualWork, actualWork), false);
-      assignment.setTimephasedActualWork(timephasedActualWork);
+      assignment.getRawTimephasedActualRegularWork().addAll(Arrays.asList(day1actualWork, actualWork));
    }
 }

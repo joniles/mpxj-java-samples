@@ -1,16 +1,13 @@
 package org.mpxj.timephased;
 
-import org.mpxj.Duration;
-import org.mpxj.LocalDateTimeRange;
-import org.mpxj.ProjectFile;
-import org.mpxj.ResourceAssignment;
+import org.mpxj.*;
 import org.mpxj.mpp.TimescaleUnits;
 import org.mpxj.reader.UniversalProjectReader;
-import org.mpxj.utility.TimephasedUtility;
 import org.mpxj.utility.TimescaleUtility;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 public class DisplayTimephasedData
 {
@@ -35,13 +32,11 @@ public class DisplayTimephasedData
       // Create the timescale
       // This is a list of LocalDateTimeRange instances
       // representing the start and end of each period on the timescale
-      ArrayList<LocalDateTimeRange> timescale = new TimescaleUtility().createTimescale(startDate, units, count);
-
-      TimephasedUtility timephasedUtility = new TimephasedUtility();
+      List<LocalDateTimeRange> timescale = new TimescaleUtility().createTimescale(startDate, units, count);
 
       for (ResourceAssignment assignment : file.getResourceAssignments())
       {
-         ArrayList<Duration> durationList = timephasedUtility.segmentWork(assignment.getEffectiveCalendar(), assignment.getTimephasedWork(), units, timescale);
+         List<Duration> durationList = assignment.getTimephasedWork(timescale, TimeUnit.HOURS);
          System.out.println(assignment);
          for (int index=0; index < timescale.size(); index++)
          {
