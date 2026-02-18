@@ -50,7 +50,7 @@ public class PrimaveraTimephasedData
       }
 
       long days = m_projectStart.until(m_projectFinish, ChronoUnit.DAYS);
-      m_timescale = timescaleUtility.createTimescale(m_projectStart, TimescaleUnits.DAYS, (int) days);
+      m_timescale = timescaleUtility.createTimescale(m_projectStart, (int)days, TimescaleUnits.DAYS);
 
 
       FileOutputStream os = new FileOutputStream(outputHtmlFile);
