@@ -9,7 +9,9 @@ import org.mpxj.Duration;
 import org.mpxj.LocalDateTimeRange;
 import org.mpxj.MPXJException;
 import org.mpxj.ProjectFile;
+import org.mpxj.Resource;
 import org.mpxj.ResourceAssignment;
+import org.mpxj.Task;
 import org.mpxj.TimeUnit;
 import org.mpxj.mpp.TimescaleUnits;
 import org.mpxj.reader.UniversalProjectReader;
@@ -54,6 +56,13 @@ public class TimephasedSamples
    {
       ProjectFile file = new UniversalProjectReader().read(
                getClass().getClassLoader().getResourceAsStream("org/mpxj/timephased-sample.mpp"));
+
+      file.getResources().forEach(System.out::println);
+      System.out.println();
+
+      file.getTasks().forEach(System.out::println);
+      System.out.println();
+
       file.getResourceAssignments().forEach(a -> System.out.println(a + " " +a.getUniqueID()));
       System.out.println();
 
@@ -64,17 +73,46 @@ public class TimephasedSamples
       System.out.println(assignment);
 
       // Work
-      List<Duration> work = assignment.getTimephasedWork(ranges, TimeUnit.HOURS);
-      writeTableHeader(ranges);
-      writeTableRow("Work", work);
-      System.out.println();
+      {
+         List<Duration> work = assignment.getTimephasedWork(ranges, TimeUnit.HOURS);
+         writeTableHeader(ranges);
+         writeTableRow("Work", work);
+         System.out.println();
+      }
 
       // Actual and remaining work
-      List<Duration> actualWork = assignment.getTimephasedActualWork(ranges, TimeUnit.HOURS);
-      List<Duration> remainingWork = assignment.getTimephasedRemainingWork(ranges, TimeUnit.HOURS);
-      writeTableHeader(ranges);
-      writeTableRow("Actual Work", actualWork);
-      writeTableRow("Remaining Work", remainingWork);
+      {
+         List<Duration> actualWork = assignment.getTimephasedActualWork(ranges, TimeUnit.HOURS);
+         List<Duration> remainingWork = assignment.getTimephasedRemainingWork(ranges, TimeUnit.HOURS);
+         writeTableHeader(ranges);
+         writeTableRow("Actual Work", actualWork);
+         writeTableRow("Remaining Work", remainingWork);
+         System.out.println();
+      }
+
+      // Resource 2
+      {
+         Resource resource2 = file.getResourceByID(2);
+         List<Duration> work = resource2.getTimephasedWork(ranges, TimeUnit.HOURS);
+         writeTableHeader(ranges);
+         writeTableRow("Resource 2 Work", work);
+         System.out.println();
+      }
+
+      // Tasks
+      {
+         Task summaryTask = file.getTaskByID(1);
+         Task task1 = file.getTaskByID(2);
+         Task task2 = file.getTaskByID(3);
+         List<Duration> summaryWork = summaryTask.getTimephasedWork(ranges, TimeUnit.HOURS);
+         List<Duration> task1Work = task1.getTimephasedWork(ranges, TimeUnit.HOURS);
+         List<Duration> task2Work = task2.getTimephasedWork(ranges, TimeUnit.HOURS);
+         writeTableHeader(ranges);
+         writeTableRow("Summary Work", summaryWork);
+         writeTableRow("Task 1 Work", task1Work);
+         writeTableRow("Task 2 Work", task2Work);
+         System.out.println();
+      }
    }
 
    private void writeTableHeader(List<LocalDateTimeRange> ranges)
