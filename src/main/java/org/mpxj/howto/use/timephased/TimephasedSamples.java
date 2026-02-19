@@ -3,6 +3,7 @@ package org.mpxj.howto.use.timephased;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.mpxj.Duration;
 import org.mpxj.LocalDateTimeRange;
@@ -61,15 +62,39 @@ public class TimephasedSamples
 
       ResourceAssignment assignment = file.getResourceAssignments().getByUniqueID(6);
       System.out.println(assignment);
+
+      // Work
       List<Duration> work = assignment.getTimephasedWork(ranges, TimeUnit.HOURS);
-      dumpTimephasedData(ranges, work);
+      writeTableHeader(ranges);
+      writeTableRow("Work", work);
+      System.out.println();
+
+      // Actual and remaining work
+      List<Duration> actualWork = assignment.getTimephasedActualWork(ranges, TimeUnit.HOURS);
+      List<Duration> remainingWork = assignment.getTimephasedRemainingWork(ranges, TimeUnit.HOURS);
+      writeTableHeader(ranges);
+      writeTableRow("Actual Work", actualWork);
+      writeTableRow("Remaining Work", remainingWork);
    }
 
-   private void dumpTimephasedData(List<LocalDateTimeRange> ranges, List<?> values)
+   private void writeTableHeader(List<LocalDateTimeRange> ranges)
    {
-      for (int index=0; index < ranges.size(); index++)
-      {
-         System.out.println(ranges.get(index).getStart().toLocalDate() + "\t" + values.get(index));
-      }
+      String labels = ranges.stream()
+         .map(r -> r.getStart().getDayOfWeek().name().substring(0, 1))
+         .collect(Collectors.joining("|"));
+      System.out.println("||" + labels + "|");
+
+      String separator = ranges.stream()
+         .map(r -> "---")
+         .collect(Collectors.joining("|"));
+      System.out.println("|---|" + separator+ "|");
+   }
+
+   private void writeTableRow(String label, List<?> data)
+   {
+      String values = data.stream()
+         .map(String::valueOf)
+         .collect(Collectors.joining("|"));
+      System.out.println("|" + label + "|" + values + "|");
    }
 }
