@@ -113,6 +113,21 @@ public class TimephasedSamples
          writeTableRow("Task 2 Work", task2Work);
          System.out.println();
       }
+
+      // Costs
+      {
+         Task summaryTask = file.getTaskByID(1);
+         Task task1 = file.getTaskByID(2);
+         Task task2 = file.getTaskByID(3);
+         List<Number> summaryWork = summaryTask.getTimephasedCost(ranges);
+         List<Number> task1Work = task1.getTimephasedCost(ranges);
+         List<Number> task2Work = task2.getTimephasedCost(ranges);
+         writeTableHeader(ranges);
+         writeTableRow("Summary Cost", summaryWork);
+         writeTableRow("Task 1 Cost", task1Work);
+         writeTableRow("Task 2 Cost", task2Work);
+         System.out.println();
+      }
    }
 
    private void writeTableHeader(List<LocalDateTimeRange> ranges)
