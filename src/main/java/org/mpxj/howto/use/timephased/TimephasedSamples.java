@@ -69,11 +69,10 @@ public class TimephasedSamples
       List<LocalDateTimeRange> ranges = new TimescaleUtility()
                .createTimescale(LocalDateTime.of(2026, 2, 18, 0, 0), 7, TimescaleUnits.DAYS);
 
-      ResourceAssignment assignment = file.getResourceAssignments().getByUniqueID(6);
-      System.out.println(assignment);
 
       // Work
       {
+         ResourceAssignment assignment = file.getResourceAssignments().getByUniqueID(6);
          List<Duration> work = assignment.getTimephasedWork(ranges, TimeUnit.HOURS);
          writeTableHeader(ranges);
          writeTableRow("Work", work);
@@ -82,6 +81,7 @@ public class TimephasedSamples
 
       // Actual and remaining work
       {
+         ResourceAssignment assignment = file.getResourceAssignments().getByUniqueID(6);
          List<Duration> actualWork = assignment.getTimephasedActualWork(ranges, TimeUnit.HOURS);
          List<Duration> remainingWork = assignment.getTimephasedRemainingWork(ranges, TimeUnit.HOURS);
          writeTableHeader(ranges);
@@ -119,15 +119,33 @@ public class TimephasedSamples
          Task summaryTask = file.getTaskByID(1);
          Task task1 = file.getTaskByID(2);
          Task task2 = file.getTaskByID(3);
-         List<Number> summaryWork = summaryTask.getTimephasedCost(ranges);
-         List<Number> task1Work = task1.getTimephasedCost(ranges);
-         List<Number> task2Work = task2.getTimephasedCost(ranges);
+         List<Number> summaryCost = summaryTask.getTimephasedCost(ranges);
+         List<Number> task1Cost = task1.getTimephasedCost(ranges);
+         List<Number> task2Cost = task2.getTimephasedCost(ranges);
          writeTableHeader(ranges);
-         writeTableRow("Summary Cost", summaryWork);
-         writeTableRow("Task 1 Cost", task1Work);
-         writeTableRow("Task 2 Cost", task2Work);
+         writeTableRow("Summary Cost", summaryCost);
+         writeTableRow("Task 1 Cost", task1Cost);
+         writeTableRow("Task 2 Cost", task2Cost);
          System.out.println();
       }
+
+      // Material
+      {
+         ResourceAssignment assignment = file.getResourceAssignments().getByUniqueID(11);
+         String materialUnits = "(" + assignment.getResource().getMaterialLabel() + ")";
+         String actualMaterialLabel = "Actual Material " + materialUnits;
+         String remainingMaterialLabel = "Remaining Material " + materialUnits;
+         String materialLabel = "Material " + materialUnits;
+         List<Number> actualMaterial = assignment.getTimephasedActualMaterial(ranges);
+         List<Number> remainingMaterial = assignment.getTimephasedRemainingMaterial(ranges);
+         List<Number> material = assignment.getTimephasedRemainingMaterial(ranges);
+         writeTableHeader(ranges);
+         writeTableRow(actualMaterialLabel, actualMaterial);
+         writeTableRow(remainingMaterialLabel, remainingMaterial);
+         writeTableRow(materialLabel, material);
+         System.out.println();
+      }
+
    }
 
    private void writeTableHeader(List<LocalDateTimeRange> ranges)
