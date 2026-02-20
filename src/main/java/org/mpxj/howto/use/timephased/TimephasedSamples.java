@@ -5,14 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.mpxj.Duration;
-import org.mpxj.LocalDateTimeRange;
-import org.mpxj.MPXJException;
-import org.mpxj.ProjectFile;
-import org.mpxj.Resource;
-import org.mpxj.ResourceAssignment;
-import org.mpxj.Task;
-import org.mpxj.TimeUnit;
+import org.mpxj.*;
 import org.mpxj.mpp.TimescaleUnits;
 import org.mpxj.reader.UniversalProjectReader;
 import org.mpxj.utility.TimescaleUtility;
@@ -131,18 +124,63 @@ public class TimephasedSamples
 
       // Material
       {
+         // Retrieve an assignment for a  material resource
          ResourceAssignment assignment = file.getResourceAssignments().getByUniqueID(11);
+
+         // Create labels using the correct units for the resource
          String materialUnits = "(" + assignment.getResource().getMaterialLabel() + ")";
          String actualMaterialLabel = "Actual Material " + materialUnits;
          String remainingMaterialLabel = "Remaining Material " + materialUnits;
          String materialLabel = "Material " + materialUnits;
+
+         // Retrieve the timephased values
          List<Number> actualMaterial = assignment.getTimephasedActualMaterial(ranges);
          List<Number> remainingMaterial = assignment.getTimephasedRemainingMaterial(ranges);
-         List<Number> material = assignment.getTimephasedRemainingMaterial(ranges);
+         List<Number> material = assignment.getTimephasedMaterial(ranges);
+
+         // Present the values as a table
          writeTableHeader(ranges);
          writeTableRow(actualMaterialLabel, actualMaterial);
          writeTableRow(remainingMaterialLabel, remainingMaterial);
          writeTableRow(materialLabel, material);
+         System.out.println();
+      }
+
+      // Retrieve work from Tasks using parametrised methods
+      {
+         // Retrieve tasks
+         Task summaryTask = file.getTaskByID(1);
+         Task task1 = file.getTaskByID(2);
+         Task task2 = file.getTaskByID(3);
+
+         // Retrieve timephased work
+         List<Duration> summaryWork = summaryTask.getTimephasedDurationValues(TaskField.WORK, ranges, TimeUnit.HOURS);
+         List<Duration> task1Work = task1.getTimephasedDurationValues(TaskField.WORK, ranges, TimeUnit.HOURS);
+         List<Duration> task2Work = task2.getTimephasedDurationValues(TaskField.WORK, ranges, TimeUnit.HOURS);
+
+         // Present the values as a table
+         writeTableHeader(ranges);
+         writeTableRow("Summary Work", summaryWork);
+         writeTableRow("Task 1 Work", task1Work);
+         writeTableRow("Task 2 Work", task2Work);
+         System.out.println();
+      }
+
+      // Retrieve costs from Tasks using parametrised methods
+      {
+         // Retrieve a resource assignment
+         ResourceAssignment assignment = file.getResourceAssignments().getByUniqueID(6);
+
+         // Retrieve timephased costs
+         List<Number> actualCost = assignment.getTimephasedNumericValues(AssignmentField.ACTUAL_COST, ranges);
+         List<Number> remainingCost = assignment.getTimephasedNumericValues(AssignmentField.REMAINING_COST, ranges);
+         List<Number> cost = assignment.getTimephasedNumericValues(AssignmentField.COST, ranges);
+
+         // Present the values as a table
+         writeTableHeader(ranges);
+         writeTableRow("Actual Cost", actualCost);
+         writeTableRow("Remaining Cost", remainingCost);
+         writeTableRow("Cost", cost);
          System.out.println();
       }
 
