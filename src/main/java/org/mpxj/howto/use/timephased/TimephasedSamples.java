@@ -146,7 +146,7 @@ public class TimephasedSamples
          System.out.println();
       }
 
-      // Retrieve work from Tasks using parametrised methods
+      // Retrieve work from tasks using parametrised methods
       {
          // Retrieve tasks
          Task summaryTask = file.getTaskByID(1);
@@ -166,7 +166,7 @@ public class TimephasedSamples
          System.out.println();
       }
 
-      // Retrieve costs from Tasks using parametrised methods
+      // Retrieve costs from a resource assignment using parametrised methods
       {
          // Retrieve a resource assignment
          ResourceAssignment assignment = file.getResourceAssignments().getByUniqueID(6);
@@ -181,6 +181,30 @@ public class TimephasedSamples
          writeTableRow("Actual Cost", actualCost);
          writeTableRow("Remaining Cost", remainingCost);
          writeTableRow("Cost", cost);
+         System.out.println();
+      }
+
+      // Retrieve material utilisation from a resource using parametrised methods
+      {
+         // Retrieve a material resource
+         Resource resource = file.getResourceByID(4);
+
+         // Create labels using the correct units for the resource
+         String materialUnits = "(" + resource.getMaterialLabel() + ")";
+         String actualMaterialLabel = "Actual Material " + materialUnits;
+         String remainingMaterialLabel = "Remaining Material " + materialUnits;
+         String materialLabel = "Material " + materialUnits;
+
+         // Retrieve the timephased values
+         List<Number> actualMaterial = resource.getTimephasedNumericValues(ResourceField.ACTUAL_MATERIAL, ranges);
+         List<Number> remainingMaterial = resource.getTimephasedNumericValues(ResourceField.REMAINING_MATERIAL, ranges);
+         List<Number> material = resource.getTimephasedNumericValues(ResourceField.MATERIAL, ranges);
+
+         // Present the values as a table
+         writeTableHeader(ranges);
+         writeTableRow(actualMaterialLabel, actualMaterial);
+         writeTableRow(remainingMaterialLabel, remainingMaterial);
+         writeTableRow(materialLabel, material);
          System.out.println();
       }
 
