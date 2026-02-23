@@ -33,8 +33,6 @@ public class PrimaveraTimephasedData
    {
       m_file = new UniversalProjectReader().read(inputProjectFile);
 
-      m_file.getResourceAssignments().forEach(this::addMissingTimephasedData);
-
       TimescaleUtility timescaleUtility = new TimescaleUtility();
       m_projectStart = m_file.getProjectProperties().getStartDate();
       m_projectFinish = m_file.getProjectProperties().getFinishDate();
@@ -161,66 +159,6 @@ public class PrimaveraTimephasedData
          else
          {
             ps.println("<td class='" + cssClass + "'>" + (int)duration.getDuration() + "</td>");
-         }
-      }
-   }
-
-   private void addMissingTimephasedData(ResourceAssignment assignment)
-   {
-      List<TimephasedWork> plannedWork = assignment.getRawTimephasedPlannedWork();
-      if (plannedWork.isEmpty())
-      {
-         // Generate default timephased data if none is present
-         double workingHours = assignment.getEffectiveCalendar().getWork(assignment.getPlannedStart(), assignment.getPlannedFinish(), TimeUnit.HOURS).getDuration();
-         double plannedHours = assignment.getPlannedWork().convertUnits(TimeUnit.HOURS, assignment.getEffectiveCalendar()).getDuration();
-
-         TimephasedWork item = new TimephasedWork();
-         item.setStart(assignment.getPlannedStart());
-         item.setFinish(assignment.getPlannedFinish());
-         item.setTotalAmount(assignment.getPlannedWork());
-         item.setAmountPerHour(Duration.getInstance(plannedHours/ workingHours, TimeUnit.HOURS));
-         plannedWork.add(item);
-      }
-
-      if (assignment.getActualStart() != null) {
-         List<TimephasedWork> actualWork = assignment.getRawTimephasedActualRegularWork();
-         ProjectCalendar calendar = assignment.getEffectiveCalendar();
-         if (actualWork.isEmpty()) {
-            // Generate default timephased data if none is present
-            LocalDateTime finish = assignment.getActualFinish();
-            if (finish == null) {
-               finish = calendar.getDate(assignment.getActualStart(), assignment.getActualWork());
-            }
-
-            double workingHours = assignment.getEffectiveCalendar().getWork(assignment.getActualStart(), finish, TimeUnit.HOURS).getDuration();
-            double actualHours = assignment.getActualWork().convertUnits(TimeUnit.HOURS, assignment.getEffectiveCalendar()).getDuration();
-
-            TimephasedWork item = new TimephasedWork();
-            item.setStart(assignment.getActualStart());
-            item.setFinish(finish);
-            item.setTotalAmount(assignment.getActualWork());
-            item.setAmountPerHour(Duration.getInstance(actualHours / workingHours, TimeUnit.HOURS));
-            actualWork.add(item);
-         }
-      }
-
-      if (assignment.getActualFinish() == null)
-      {
-         List<TimephasedWork> remainingWork = assignment.getRawTimephasedRemainingRegularWork();
-         if (remainingWork.isEmpty())
-         {
-            // Generate default timephased data if none is present
-            LocalDateTime start = assignment.getActualStart() == null ? assignment.getStart() : assignment.getRemainingEarlyStart();
-
-            double workingHours = assignment.getEffectiveCalendar().getWork(start, assignment.getFinish(), TimeUnit.HOURS).getDuration();
-            double remainingHours = assignment.getRemainingWork().convertUnits(TimeUnit.HOURS, assignment.getEffectiveCalendar()).getDuration();
-
-            TimephasedWork item = new TimephasedWork();
-            item.setStart(start);
-            item.setFinish(assignment.getFinish());
-            item.setTotalAmount(assignment.getRemainingWork());
-            item.setAmountPerHour(Duration.getInstance(remainingHours / workingHours, TimeUnit.HOURS));
-            remainingWork.add(item);
          }
       }
    }
