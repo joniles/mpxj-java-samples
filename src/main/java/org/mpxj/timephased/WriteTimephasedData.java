@@ -100,6 +100,11 @@ public class WriteTimephasedData {
       assignment.setWorkContour(WorkContour.FLAT);
    }
 
+   /**
+    * 40h task, 40h complete. Flat distribution, so no timephased data needed.
+    *
+    * @param file parent file
+    */
    private void addFlatDistributionCompleteTask(ProjectFile file) {
       Resource resource = file.addResource();
       resource.setName("Resource 3");
@@ -195,6 +200,7 @@ public class WriteTimephasedData {
       task.setActualWork(Duration.getInstance(4, TimeUnit.HOURS));
       task.setRemainingWork(Duration.getInstance(36, TimeUnit.HOURS));
 
+      // Create a resource assignment
       ResourceAssignment assignment = task.addResourceAssignment(resource);
       assignment.setStart(task.getStart());
       assignment.setActualStart(task.getStart());
@@ -211,28 +217,33 @@ public class WriteTimephasedData {
       TimephasedWork day1ActualWork = new TimephasedWork();
       day1ActualWork.setStart(LocalDateTime.of(2024, 3, 4, 8, 0));
       day1ActualWork.setFinish(LocalDateTime.of(2024, 3, 4, 12, 0));
+      day1ActualWork.setAmountPerHour(Duration.getInstance(1, TimeUnit.HOURS));
       day1ActualWork.setTotalAmount(Duration.getInstance(4, TimeUnit.HOURS));
 
       // Day 1 remaining - 6h
       TimephasedWork day1RemainingWork = new TimephasedWork();
       day1RemainingWork.setStart(LocalDateTime.of(2024, 3, 4, 13, 0));
       day1RemainingWork.setFinish(LocalDateTime.of(2024, 3, 4, 17, 0));
+      day1RemainingWork.setAmountPerHour(Duration.getInstance(1.5, TimeUnit.HOURS));
       day1RemainingWork.setTotalAmount(Duration.getInstance(6, TimeUnit.HOURS));
 
-      // Day 2 - 6h
+      // Day 2 remaining - 6h
       TimephasedWork day2RemainingWork = new TimephasedWork();
       day2RemainingWork.setStart(LocalDateTime.of(2024, 3, 5, 8, 0));
       day2RemainingWork.setFinish(LocalDateTime.of(2024, 3, 5, 17, 0));
+      day2RemainingWork.setAmountPerHour(Duration.getInstance(0.75, TimeUnit.HOURS));
       day2RemainingWork.setTotalAmount(Duration.getInstance(6, TimeUnit.HOURS));
 
       // Remaining days - 8h/day
       TimephasedWork remainingWork = new TimephasedWork();
       remainingWork.setStart(LocalDateTime.of(2024, 3, 6, 8, 0));
       remainingWork.setFinish(LocalDateTime.of(2024, 3, 8, 17, 0));
+      remainingWork.setAmountPerHour(Duration.getInstance(1, TimeUnit.HOURS));
       remainingWork.setTotalAmount(Duration.getInstance(24, TimeUnit.HOURS));
 
       assignment.getRawTimephasedActualRegularWork().add(day1ActualWork);
-      assignment.getRawTimephasedRemainingRegularWork().addAll(Arrays.asList(day1RemainingWork, day2RemainingWork, remainingWork));
+      assignment.getRawTimephasedRemainingRegularWork()
+               .addAll(Arrays.asList(day1RemainingWork, day2RemainingWork, remainingWork));
    }
 
    /**
