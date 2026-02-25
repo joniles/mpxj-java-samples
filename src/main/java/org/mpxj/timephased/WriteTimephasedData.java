@@ -33,7 +33,8 @@ public class WriteTimephasedData {
       addCustomDistributionPartiallyCompleteTask(file);
       addCustomDistributionCompleteTask(file);
 
-      addSplitTask(file);
+      //addSplitTask(file);
+      addSplitTaskAlternate(file);
       addSplitTaskPartiallyCompleteSplit(file);
       addSplitTaskFirstSplitComplete(file);
       addSplitTaskSecondSplitPartiallyComplete(file);
@@ -205,27 +206,27 @@ public class WriteTimephasedData {
       assignment.setStart(task.getStart());
       assignment.setActualStart(task.getStart());
       assignment.setWork(Duration.getInstance(40, TimeUnit.HOURS));
-      assignment.setActualWork(Duration.getInstance(4, TimeUnit.HOURS));
-      assignment.setRemainingWork(Duration.getInstance(36, TimeUnit.HOURS));
+      assignment.setActualWork(Duration.getInstance(5, TimeUnit.HOURS));
+      assignment.setRemainingWork(Duration.getInstance(35, TimeUnit.HOURS));
 
       // Important - MS Project needs this as well as the timephased data
       // to correctly represent the actual and remaining work
       assignment.setStop(LocalDateTime.of(2024, 3, 4, 12, 0));
       assignment.setResume(LocalDateTime.of(2024, 3, 4, 13, 0));
 
-      // Day 1 actual work - 4h
+      // Day 1 actual work - 5h
       TimephasedWork day1ActualWork = new TimephasedWork();
       day1ActualWork.setStart(LocalDateTime.of(2024, 3, 4, 8, 0));
       day1ActualWork.setFinish(LocalDateTime.of(2024, 3, 4, 12, 0));
-      day1ActualWork.setAmountPerHour(Duration.getInstance(1, TimeUnit.HOURS));
-      day1ActualWork.setTotalAmount(Duration.getInstance(4, TimeUnit.HOURS));
+      day1ActualWork.setAmountPerHour(Duration.getInstance(1.25, TimeUnit.HOURS));
+      day1ActualWork.setTotalAmount(Duration.getInstance(5, TimeUnit.HOURS));
 
-      // Day 1 remaining - 6h
+      // Day 1 remaining - 5h
       TimephasedWork day1RemainingWork = new TimephasedWork();
       day1RemainingWork.setStart(LocalDateTime.of(2024, 3, 4, 13, 0));
       day1RemainingWork.setFinish(LocalDateTime.of(2024, 3, 4, 17, 0));
-      day1RemainingWork.setAmountPerHour(Duration.getInstance(1.5, TimeUnit.HOURS));
-      day1RemainingWork.setTotalAmount(Duration.getInstance(6, TimeUnit.HOURS));
+      day1RemainingWork.setAmountPerHour(Duration.getInstance(1.25, TimeUnit.HOURS));
+      day1RemainingWork.setTotalAmount(Duration.getInstance(5, TimeUnit.HOURS));
 
       // Day 2 remaining - 6h
       TimephasedWork day2RemainingWork = new TimephasedWork();
@@ -267,6 +268,7 @@ public class WriteTimephasedData {
       task.setActualWork(Duration.getInstance(40, TimeUnit.HOURS));
       task.setRemainingWork(Duration.getInstance(0, TimeUnit.HOURS));
 
+      // Create a resource assignment
       ResourceAssignment assignment = task.addResourceAssignment(resource);
       assignment.setStart(task.getStart());
       assignment.setActualStart(task.getStart());
@@ -278,21 +280,25 @@ public class WriteTimephasedData {
       TimephasedWork day1ActualWork = new TimephasedWork();
       day1ActualWork.setStart(LocalDateTime.of(2024, 3, 4, 8, 0));
       day1ActualWork.setFinish(LocalDateTime.of(2024, 3, 4, 17, 0));
+      day1ActualWork.setAmountPerHour(Duration.getInstance(1.25, TimeUnit.HOURS));
       day1ActualWork.setTotalAmount(Duration.getInstance(10, TimeUnit.HOURS));
 
       // Day 2 actual - 6h
       TimephasedWork day2ActualWork = new TimephasedWork();
       day2ActualWork.setStart(LocalDateTime.of(2024, 3, 5, 8, 0));
       day2ActualWork.setFinish(LocalDateTime.of(2024, 3, 5, 17, 0));
+      day2ActualWork.setAmountPerHour(Duration.getInstance(0.75, TimeUnit.HOURS));
       day2ActualWork.setTotalAmount(Duration.getInstance(6, TimeUnit.HOURS));
 
       // Remaining days - 8h/day
       TimephasedWork actualWork = new TimephasedWork();
       actualWork.setStart(LocalDateTime.of(2024, 3, 6, 8, 0));
       actualWork.setFinish(LocalDateTime.of(2024, 3, 8, 17, 0));
+      actualWork.setAmountPerHour(Duration.getInstance(1, TimeUnit.HOURS));
       actualWork.setTotalAmount(Duration.getInstance(24, TimeUnit.HOURS));
 
-      assignment.getRawTimephasedActualRegularWork().addAll(Arrays.asList(day1ActualWork, day2ActualWork, actualWork));
+      assignment.getRawTimephasedActualRegularWork()
+               .addAll(Arrays.asList(day1ActualWork, day2ActualWork, actualWork));
    }
 
    /**
@@ -313,19 +319,21 @@ public class WriteTimephasedData {
       task.setWork(Duration.getInstance(40, TimeUnit.HOURS));
       task.setRemainingWork(Duration.getInstance(40, TimeUnit.HOURS));
 
+      // Create a resource assignment
       ResourceAssignment assignment = task.addResourceAssignment(resource);
       assignment.setStart(task.getStart());
       assignment.setWork(Duration.getInstance(40, TimeUnit.HOURS));
       assignment.setRemainingWork(Duration.getInstance(40, TimeUnit.HOURS));
 
       // This is important - MS Project will accept the timephased data without this,
-      // but the split won't show up on the Gantt Chart unless ths is set
+      // but the split won't show up on the Gantt Chart unless this is set
       assignment.setWorkContour(WorkContour.CONTOURED);
 
       // Day 1 - 8h
       TimephasedWork day1RemainingWork = new TimephasedWork();
       day1RemainingWork.setStart(LocalDateTime.of(2024, 3, 4, 8, 0));
       day1RemainingWork.setFinish(LocalDateTime.of(2024, 3, 4, 17, 0));
+      day1RemainingWork.setAmountPerHour(Duration.getInstance(1, TimeUnit.HOURS));
       day1RemainingWork.setTotalAmount(Duration.getInstance(8, TimeUnit.HOURS));
 
       // Day 2 - split
@@ -336,9 +344,60 @@ public class WriteTimephasedData {
       TimephasedWork remainingWork = new TimephasedWork();
       remainingWork.setStart(LocalDateTime.of(2024, 3, 6, 8, 0));
       remainingWork.setFinish(LocalDateTime.of(2024, 3, 11, 17, 0));
+      remainingWork.setAmountPerHour(Duration.getInstance(1, TimeUnit.HOURS));
       remainingWork.setTotalAmount(Duration.getInstance(32, TimeUnit.HOURS));
 
-      assignment.getRawTimephasedRemainingRegularWork().addAll(Arrays.asList(day1RemainingWork, remainingWork));
+      assignment.getRawTimephasedRemainingRegularWork()
+               .addAll(Arrays.asList(day1RemainingWork, remainingWork));
+   }
+
+   private void addSplitTaskAlternate(ProjectFile file) {
+      Resource resource = file.addResource();
+      resource.setName("Resource 7");
+
+      Task task = file.addTask();
+      task.setName("Task 7 - Split");
+      task.setStart(LocalDateTime.of(2024, 3, 4, 8, 0));
+      task.setFinish(LocalDateTime.of(2024, 3, 11, 17, 0));
+      task.setDuration(Duration.getInstance(40, TimeUnit.HOURS));
+      task.setWork(Duration.getInstance(40, TimeUnit.HOURS));
+      task.setRemainingWork(Duration.getInstance(40, TimeUnit.HOURS));
+
+      // Create a resource assignment
+      ResourceAssignment assignment = task.addResourceAssignment(resource);
+      assignment.setStart(task.getStart());
+      assignment.setWork(Duration.getInstance(40, TimeUnit.HOURS));
+      assignment.setRemainingWork(Duration.getInstance(40, TimeUnit.HOURS));
+
+      // This is important - MS Project will accept the timephased data without this,
+      // but the split won't show up on the Gantt Chart unless this is set
+      assignment.setWorkContour(WorkContour.CONTOURED);
+
+      // Day 1 - 8h
+      TimephasedWork day1RemainingWork = new TimephasedWork();
+      day1RemainingWork.setStart(LocalDateTime.of(2024, 3, 4, 8, 0));
+      day1RemainingWork.setFinish(LocalDateTime.of(2024, 3, 4, 17, 0));
+      day1RemainingWork.setAmountPerHour(Duration.getInstance(1, TimeUnit.HOURS));
+      day1RemainingWork.setTotalAmount(Duration.getInstance(8, TimeUnit.HOURS));
+
+      // Day 2 - split
+      TimephasedWork day2RemainingWork = new TimephasedWork();
+      day2RemainingWork.setStart(LocalDateTime.of(2024, 3, 4, 8, 0));
+      day2RemainingWork.setFinish(LocalDateTime.of(2024, 3, 4, 17, 0));
+      day2RemainingWork.setAmountPerHour(Duration.getInstance(0, TimeUnit.HOURS));
+      day2RemainingWork.setTotalAmount(Duration.getInstance(0, TimeUnit.HOURS));
+
+      // Remaining days - 8h/day
+      // Note the gap between the end of the first working day and the start of the next working day.
+      // This gives us the split.
+      TimephasedWork remainingWork = new TimephasedWork();
+      remainingWork.setStart(LocalDateTime.of(2024, 3, 6, 8, 0));
+      remainingWork.setFinish(LocalDateTime.of(2024, 3, 11, 17, 0));
+      remainingWork.setAmountPerHour(Duration.getInstance(1, TimeUnit.HOURS));
+      remainingWork.setTotalAmount(Duration.getInstance(32, TimeUnit.HOURS));
+
+      assignment.getRawTimephasedRemainingRegularWork()
+               .addAll(Arrays.asList(day1RemainingWork, day2RemainingWork, remainingWork));
    }
 
    /**
