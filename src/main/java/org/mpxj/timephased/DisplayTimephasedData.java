@@ -1,9 +1,9 @@
 package org.mpxj.timephased;
 
 import org.mpxj.*;
-import org.mpxj.mpp.TimescaleUnits;
+import org.mpxj.TimescaleUnits;
 import org.mpxj.reader.UniversalProjectReader;
-import org.mpxj.utility.TimescaleUtility;
+import org.mpxj.common.TimescaleHelper;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,7 +31,7 @@ public class DisplayTimephasedData
       // Create the timescale
       // This is a list of LocalDateTimeRange instances
       // representing the start and end of each period on the timescale
-      List<LocalDateTimeRange> timescale = new TimescaleUtility().createTimescale(startDate, count, units);
+      List<LocalDateTimeRange> timescale = new TimescaleHelper().createTimescale(startDate, count, units);
 
       for (ResourceAssignment assignment : file.getResourceAssignments())
       {

@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.mpxj.*;
-import org.mpxj.mpp.TimescaleUnits;
+import org.mpxj.TimescaleUnits;
 import org.mpxj.reader.UniversalProjectReader;
-import org.mpxj.utility.TimescaleUtility;
+import org.mpxj.common.TimescaleHelper;
 
 public class TimephasedSamples
 {
@@ -32,7 +32,7 @@ public class TimephasedSamples
    {
       // Timescale with segment count
       LocalDateTime startDate = LocalDateTime.of(2026, 2, 16, 0, 0, 0);
-      List<LocalDateTimeRange> ranges = new TimescaleUtility().createTimescale(startDate, 5, TimescaleUnits.DAYS);
+      List<LocalDateTimeRange> ranges = new TimescaleHelper().createTimescale(startDate, 5, TimescaleUnits.DAYS);
    }
 
    public void timescaleDateRange()
@@ -40,7 +40,7 @@ public class TimephasedSamples
       // Timescale with date range
       LocalDateTime startDate = LocalDateTime.of(2026, 2, 16, 0, 0, 0);
       LocalDateTime endDate = LocalDateTime.of(2026, 2, 20, 0, 0, 0);
-      List<LocalDateTimeRange> ranges = new TimescaleUtility()
+      List<LocalDateTimeRange> ranges = new TimescaleHelper()
                .createTimescale(startDate, endDate, TimescaleUnits.DAYS);
 
    }
@@ -59,7 +59,7 @@ public class TimephasedSamples
       file.getResourceAssignments().forEach(a -> System.out.println(a + " " +a.getUniqueID()));
       System.out.println();
 
-      List<LocalDateTimeRange> ranges = new TimescaleUtility()
+      List<LocalDateTimeRange> ranges = new TimescaleHelper()
                .createTimescale(LocalDateTime.of(2026, 2, 18, 0, 0), 7, TimescaleUnits.DAYS);
 
 

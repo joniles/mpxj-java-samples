@@ -1,9 +1,9 @@
 package org.mpxj.timephased;
 
 import org.mpxj.*;
-import org.mpxj.mpp.TimescaleUnits;
+import org.mpxj.TimescaleUnits;
 import org.mpxj.reader.UniversalProjectReader;
-import org.mpxj.utility.TimescaleUtility;
+import org.mpxj.common.TimescaleHelper;
 
 import java.io.FileOutputStream;
 import java.io.PrintStream;
@@ -33,7 +33,7 @@ public class PrimaveraTimephasedData
    {
       m_file = new UniversalProjectReader().read(inputProjectFile);
 
-      TimescaleUtility timescaleUtility = new TimescaleUtility();
+      TimescaleHelper timescaleUtility = new TimescaleHelper();
       m_projectStart = m_file.getProjectProperties().getStartDate();
       m_projectFinish = m_file.getProjectProperties().getFinishDate();
 
