@@ -1,4 +1,4 @@
-package org.mpxj.timephased;
+package org.mpxj.howto.use.timephased;
 
 import org.mpxj.*;
 import org.mpxj.mspdi.MSPDIWriter;
