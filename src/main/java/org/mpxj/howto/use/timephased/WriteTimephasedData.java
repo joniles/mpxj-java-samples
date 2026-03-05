@@ -574,7 +574,7 @@ public class WriteTimephasedData {
       remainingWork.setFinish(LocalDateTime.of(2024, 3, 11, 17, 0));
       remainingWork.setTotalAmount(Duration.getInstance(24, TimeUnit.HOURS));
 
-      assignment.getRawTimephasedActualRegularWork().addAll(Arrays.asList(day1ActualWork, day3ActualWork, remainingWork));
+      assignment.getRawTimephasedActualRegularWork().addAll(Arrays.asList(day1ActualWork, day3ActualWork));
       assignment.getRawTimephasedRemainingRegularWork().add(remainingWork);
    }
 
