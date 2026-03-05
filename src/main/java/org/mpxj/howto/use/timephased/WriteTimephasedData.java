@@ -388,8 +388,6 @@ public class WriteTimephasedData {
       day2RemainingWork.setTotalAmount(Duration.getInstance(0, TimeUnit.HOURS));
 
       // Remaining days - 8h/day
-      // Note the gap between the end of the first working day and the start of the next working day.
-      // This gives us the split.
       TimephasedWork remainingWork = new TimephasedWork();
       remainingWork.setStart(LocalDateTime.of(2024, 3, 6, 8, 0));
       remainingWork.setFinish(LocalDateTime.of(2024, 3, 11, 17, 0));
